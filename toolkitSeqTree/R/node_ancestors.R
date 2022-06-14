@@ -13,6 +13,21 @@
 #' @examples
 node_ancestors <- function(tree_dat = NA, node_id = NA) {
 
+  if (length(node_id) > 1) {
+    stop('Error: length of node_id cannot be greater than 1')
+  }
+
+  # if character is supplied for node_id, ID the node id associated with it
+  if (is.character(node_id) == T) {
+
+    if (node_id %in% tree_dat$label == F) {
+      stop('Error: taxa supplied is not present in tree_dat$label')
+    }
+
+    node_id <- tree_dat$node[which(tree_dat$label == node_id)]
+  }
+
+  # start 'ancestors' with the parent of the target node
   ancestors <- tree_dat$parent[tree_dat$node == node_id]
 
   # while loop - continue adding ancestors until no more exist
