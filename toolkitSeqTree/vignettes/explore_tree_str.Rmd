@@ -1,0 +1,121 @@
+---
+title: "Exploring tree structure"
+date: '`r format(Sys.Date(), "%B %d %Y")`'
+author: "Will Harvey"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Exploring tree structure}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.width = 6,
+  fig.height = 4
+)
+```
+
+```{r, fig.width=7}
+# load the package into R
+library(toolkitSeqTree)
+
+# load other useful packages
+library(ggtree)
+library(ggplot2)
+```
+
+## Identifying node ancestors and descendants
+
+First we read a tree into R and "fortify" using `ggtree::fortify()` the tree object which produces a data frame with one row representing each tree node.
+
+```{r}
+tree <- treeio::read.beast('../inst/extdata/h1n1_ref_viruses.trees')
+tree_dat <- fortify(tree)
+ggtree(tree)
+head(tree_dat)
+```
+
+The relationships between nodes of the phylogeny are contained in `tree_dat` columns `tree_dat$node` and `tree_dat$parent`. For a bifurcating tree, each internal node of the phylogeny is the parent of two nodes.
+
+For the root of the phylogeny, `tree_dat$node == tree_dat$parent`.
+
+```{r}
+# plot tree with root highlighted
+ggtree(tree) +
+  geom_point(data = subset(tree_dat, node == parent),
+             col = 'dodgerblue', size = 4)
+```
+
+### Descendants of a given node
+
+For various exercises, it can be useful to use `node_descendants()` to identify all nodes that are descended from a particular internal node of the phylogeny.
+
+
+```{r}
+# This example uses node 60 as a randomly chosen internal node
+target_node <- 60
+descendants <- node_descendants(tree_dat, node_id = target_node)
+
+# plot tree with target node highlighted as blue circle
+# and descendants of target node as red diamonds
+ggtree(tree) +
+  geom_point(data = subset(tree_dat, node == target_node),
+             col = 'dodgerblue', size = 4) +
+  geom_point(data = subset(tree_dat, node %in% descendants),
+             col = 'firebrick2', shape = 18, size = 3)
+```
+
+### Ancestors of a given node.
+
+Similarly, it can be useful to identify ancestors of a node using `node_ancestors()`. Unlike `node_descendants()`, this function can be run using a terminal node (or tip) in addition to internal nodes. For this example, node 60 will be used again as the node of interest. The results returned from `node_ancestors()` should form a path between the node 60 and the root of the phylogeny.
+
+```{r}
+target_node <- 60
+ancestors <- node_ancestors(tree_dat, node_id = target_node)
+
+ggtree(tree) +
+  geom_point(data = subset(tree_dat, node == target_node),
+             col = 'dodgerblue', size = 4) +
+  geom_point(data = subset(tree_dat, node %in% ancestors),
+             col = 'firebrick2', shape = 18, size = 3)
+```
+
+One feature of `node_ancestors()` is that ancestral nodes are identified from the direct parent of the target node back through the tree to the route. Indexing, e.g. `ancestors[1]` 
+
+```{r}
+# Highlight first node in 'ancestors' as red diamond 
+ggtree(tree) +
+  geom_point(data = subset(tree_dat, node == target_node),
+             col = 'dodgerblue', size = 4) +
+  geom_point(data = subset(tree_dat, node %in% ancestors[1]),
+             col = 'firebrick2', shape = 18, size = 4)
+
+# Highlight second node in 'ancestors' as red diamond 
+ggtree(tree) +
+  geom_point(data = subset(tree_dat, node == target_node),
+             col = 'dodgerblue', size = 4) +
+  geom_point(data = subset(tree_dat, node %in% ancestors[2]),
+             col = 'firebrick2', shape = 18, size = 4)
+```
+
+This feature of `node_ancestors()` makes it useful in identifying the node representing the most recent common ancestor in the phylogeny.
+
+### MRCA of two taxa or node.
+
+The function `nodes_mrca()` will take two taxa labels (or alternatively two node numbers - which can include internal nodes) and identify the node representing their most recent common ancestor.
+
+```{r}
+# Pair of taxa of interest are selected and function 
+taxa_interested <- c('H1N1_A_NEWCALEDONIA_20_1999', 'H1N1_A_STPETERSBURG_5_2008')
+taxa_mrca <- nodes_mrca(tree_dat, taxa = taxa_interested)
+
+# Highlight taxa_interested as blue circles and MRCA as red diamond 
+ggtree(tree) +
+  geom_point(data = subset(tree_dat, label %in% taxa_interested),
+             col = 'dodgerblue', size = 4) +
+  geom_point(data = subset(tree_dat, node %in% taxa_mrca),
+             col = 'firebrick2', shape = 18, size = 4)
+```
