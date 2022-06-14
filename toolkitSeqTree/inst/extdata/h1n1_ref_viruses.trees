@@ -1,0 +1,145 @@
+#NEXUS
+begin taxa;
+	dimensions ntax=43;
+	taxlabels
+	H1N1_A_BAYERN_7_1995
+	H1N1_A_BEIJING_262_1995
+	H1N1_A_BRAZIL_11_1978
+	H1N1_A_BRISBANE_59_2007
+	H1N1_A_CHILE_1_1983
+	H1N1_A_CHILE_4795_2000
+	H1N1_A_CHILE_8885_2002
+	H1N1_A_EGYPT_10_2007
+	H1N1_A_EGYPT_39_2005
+	H1N1_A_EGYPT_96_2002
+	H1N1_A_FUKUOKA_C86_2000
+	H1N1_A_FUKUSHIMA_141_2006
+	H1N1_A_FUKUSHIMA_97_2006
+	H1N1_A_HONGKONG_1252_2000
+	H1N1_A_HONGKONG_1856_2008
+	H1N1_A_HONGKONG_1870_2008
+	H1N1_A_HONGKONG_1988_2009
+	H1N1_A_HONGKONG_2637_2004
+	H1N1_A_HONGKONG_2652_2006
+	H1N1_A_HONGKONG_4847_1998
+	H1N1_A_ICELAND_123_2003
+	H1N1_A_JIHLAVA_8_2007
+	H1N1_A_JOHANNESBURG_159_1997
+	H1N1_A_JOHANNESBURG_82_1996
+	H1N1_A_KANAGAWA_92_1998
+	H1N1_A_MADAGASCAR_57794_2000
+	H1N1_A_MOSCOW_2_2009
+	H1N1_A_NETHERLANDS_128_2004
+	H1N1_A_NETHERLANDS_345_2007
+	H1N1_A_NEWCALEDONIA_20_1999
+	H1N1_A_OSTRAVA_801_1998
+	H1N1_A_SEYCHELLES_2239_2008
+	H1N1_A_SOLOMONISLANDS_3_2006
+	H1N1_A_STPETERSBURG_10_2007
+	H1N1_A_STPETERSBURG_12_2008
+	H1N1_A_STPETERSBURG_5_2008
+	H1N1_A_STPETERSBURG_8_2006
+	H1N1_A_TAIWAN_1_1986
+	H1N1_A_TEXAS_36_1991
+	H1N1_A_THESSALONIKI_24_2005
+	H1N1_A_ULANUDE_209_1998
+	H1N1_A_WELLINGTON_8_1997
+	H1N1_A_WUHAN_371_1995
+;
+end;
+
+begin trees;
+	tree TREE1 = [&R] ((H1N1_A_CHILE_1_1983[&Control="0001"]:6.028926,(((H1N1_A_JOHANNESBURG_82_1996[&Control="0002"]:4.158225,(H1N1_A_BAYERN_7_1995[&Control="0003"]:2.542345,(H1N1_A_WELLINGTON_8_1997[&Control="0004"]:2.610023,H1N1_A_CHILE_4795_2000[&Control="0005"]:5.610023)[&Control="1A"]:1.932321)[&Control="2A"]:0.61588)[&Control="3A"]:4.326782,(((H1N1_A_BEIJING_262_1995[&Control="0006"]:1.266907,H1N1_A_WUHAN_371_1995[&Control="0007"]:1.266907)[&Control="1B"]:2.068616,((((((H1N1_A_MADAGASCAR_57794_2000[&Control="0008"]:1.684072,H1N1_A_CHILE_8885_2002[&Control="0009"]:3.684072)[&Control="1C"]:0.831182,H1N1_A_HONGKONG_4847_1998[&Control="0010"]:0.515254)[&Control="2B"]:0.262073,((H1N1_A_NEWCALEDONIA_20_1999[&Control="0011"]:0.854144,H1N1_A_FUKUOKA_C86_2000[&Control="0012"]:1.854144)[&Control="1D"]:0.602252,((((H1N1_A_EGYPT_39_2005[&Control="0013"]:1.504194,(((H1N1_A_FUKUSHIMA_141_2006[&Control="0014"]:0.422182,H1N1_A_FUKUSHIMA_97_2006[&Control="0015"]:0.422182)[&Control="1E"]:0.721945,H1N1_A_SOLOMONISLANDS_3_2006[&Control="0016"]:1.144127)[&Control="2C"]:1.216133,((((H1N1_A_BRISBANE_59_2007[&Control="0017"]:0.47342,H1N1_A_JIHLAVA_8_2007[&Control="0018"]:0.47342)[&Control="1F"]:0.570946,(H1N1_A_NETHERLANDS_345_2007[&Control="0019"]:0.686359,(((((H1N1_A_MOSCOW_2_2009[&Control="0020"]:1.543496,H1N1_A_HONGKONG_1988_2009[&Control="0021"]:1.543496)[&Control="1G"]:0.441021,H1N1_A_SEYCHELLES_2239_2008[&Control="0022"]:0.984518)[&Control="2D"]:0.457624,H1N1_A_STPETERSBURG_5_2008[&Control="0023"]:1.442142)[&Control="3B"]:0.047647,H1N1_A_EGYPT_10_2007[&Control="0024"]:0.489789)[&Control="4A"]:0.081193,H1N1_A_STPETERSBURG_12_2008[&Control="0025"]:1.570982)[&Control="5A"]:0.115377)[&Control="6A"]:0.358007)[&Control="7A"]:2.009718,(((H1N1_A_HONGKONG_2652_2006[&Control="0026"]:0.55798,(H1N1_A_HONGKONG_1856_2008[&Control="0027"]:0.761329,H1N1_A_HONGKONG_1870_2008[&Control="0028"]:0.761329)[&Control="1H"]:1.796651)[&Control="2E"]:0.294362,H1N1_A_STPETERSBURG_10_2007[&Control="0029"]:1.852342)[&Control="3C"]:0.528317,H1N1_A_STPETERSBURG_8_2006[&Control="0030"]:1.38066)[&Control="4B"]:0.673424)[&Control="8A"]:0.254779,H1N1_A_HONGKONG_2637_2004[&Control="0031"]:0.308863)[&Control="9A"]:0.051397)[&Control="10A"]:0.143935)[&Control="11A"]:3.584635,(H1N1_A_THESSALONIKI_24_2005[&Control="0032"]:1.863431,H1N1_A_NETHERLANDS_128_2004[&Control="0033"]:0.863431)[&Control="1I"]:3.225398)[&Control="12A"]:2.049851,H1N1_A_HONGKONG_1252_2000[&Control="0034"]:2.13868)[&Control="13A"]:0.099999,(H1N1_A_EGYPT_96_2002[&Control="0035"]:1.803546,H1N1_A_ICELAND_123_2003[&Control="0036"]:2.803546)[&Control="1J"]:2.435133)[&Control="14A"]:0.217717)[&Control="15A"]:0.320931)[&Control="16A"]:0.623587,H1N1_A_KANAGAWA_92_1998[&Control="0037"]:1.400914)[&Control="17A"]:1.593371,H1N1_A_ULANUDE_209_1998[&Control="0038"]:2.994284)[&Control="18A"]:1.027948,(H1N1_A_OSTRAVA_801_1998[&Control="0039"]:3.723306,H1N1_A_JOHANNESBURG_159_1997[&Control="0040"]:2.723306)[&Control="1K"]:0.298926)[&Control="19A"]:2.31329)[&Control="20A"]:4.012718,H1N1_A_TEXAS_36_1991[&Control="0041"]:3.34824)[&Control="21A"]:0.136767)[&Control="22A"]:3.576442,H1N1_A_TAIWAN_1_1986[&Control="0042"]:2.061449)[&Control="23A"]:6.967478)[&Control="24A"]:7.532126,H1N1_A_BRAZIL_11_1978[&Control="0043"]:8.561052)[&Control="25A"];
+end;
+
+begin figtree;
+	set appearance.backgroundColorAttribute="Default";
+	set appearance.backgroundColour=#ffffff;
+	set appearance.branchColorAttribute="User selection";
+	set appearance.branchColorGradient=false;
+	set appearance.branchLineWidth=1.0;
+	set appearance.branchMinLineWidth=0.0;
+	set appearance.branchWidthAttribute="Fixed";
+	set appearance.foregroundColour=#000000;
+	set appearance.hilightingGradient=false;
+	set appearance.selectionColour=#2d3680;
+	set branchLabels.colorAttribute="User selection";
+	set branchLabels.displayAttribute="Control";
+	set branchLabels.fontName="sansserif";
+	set branchLabels.fontSize=8;
+	set branchLabels.fontStyle=0;
+	set branchLabels.isShown=true;
+	set branchLabels.significantDigits=4;
+	set layout.expansion=0;
+	set layout.layoutType="RECTILINEAR";
+	set layout.zoom=0;
+	set legend.attribute=null;
+	set legend.fontSize=10.0;
+	set legend.isShown=false;
+	set legend.significantDigits=4;
+	set nodeBars.barWidth=4.0;
+	set nodeBars.displayAttribute=null;
+	set nodeBars.isShown=false;
+	set nodeLabels.colorAttribute="User selection";
+	set nodeLabels.displayAttribute="Node ages";
+	set nodeLabels.fontName="sansserif";
+	set nodeLabels.fontSize=8;
+	set nodeLabels.fontStyle=0;
+	set nodeLabels.isShown=false;
+	set nodeLabels.significantDigits=4;
+	set nodeShapeExternal.colourAttribute=null;
+	set nodeShapeExternal.isShown=false;
+	set nodeShapeExternal.minSize=10.0;
+	set nodeShapeExternal.scaleType=Width;
+	set nodeShapeExternal.shapeType=Circle;
+	set nodeShapeExternal.size=4.0;
+	set nodeShapeExternal.sizeAttribute=null;
+	set nodeShapeInternal.colourAttribute=null;
+	set nodeShapeInternal.isShown=false;
+	set nodeShapeInternal.minSize=10.0;
+	set nodeShapeInternal.scaleType=Width;
+	set nodeShapeInternal.shapeType=Circle;
+	set nodeShapeInternal.size=4.0;
+	set nodeShapeInternal.sizeAttribute=null;
+	set polarLayout.alignTipLabels=false;
+	set polarLayout.angularRange=0;
+	set polarLayout.rootAngle=0;
+	set polarLayout.rootLength=100;
+	set polarLayout.showRoot=true;
+	set radialLayout.spread=0.0;
+	set rectilinearLayout.alignTipLabels=false;
+	set rectilinearLayout.curvature=0;
+	set rectilinearLayout.rootLength=100;
+	set scale.offsetAge=0.0;
+	set scale.rootAge=1.0;
+	set scale.scaleFactor=1.0;
+	set scale.scaleRoot=false;
+	set scaleAxis.automaticScale=true;
+	set scaleAxis.fontSize=8.0;
+	set scaleAxis.isShown=false;
+	set scaleAxis.lineWidth=1.0;
+	set scaleAxis.majorTicks=1.0;
+	set scaleAxis.minorTicks=0.5;
+	set scaleAxis.origin=0.0;
+	set scaleAxis.reverseAxis=false;
+	set scaleAxis.showGrid=true;
+	set scaleBar.automaticScale=true;
+	set scaleBar.fontSize=10.0;
+	set scaleBar.isShown=true;
+	set scaleBar.lineWidth=1.0;
+	set scaleBar.scaleRange=0.0;
+	set tipLabels.colorAttribute="User selection";
+	set tipLabels.displayAttribute="Names";
+	set tipLabels.fontName="sansserif";
+	set tipLabels.fontSize=8;
+	set tipLabels.fontStyle=0;
+	set tipLabels.isShown=true;
+	set tipLabels.significantDigits=4;
+	set trees.order=true;
+	set trees.orderType="increasing";
+	set trees.rooting=false;
+	set trees.rootingType="User Selection";
+	set trees.transform=false;
+	set trees.transformType="cladogram";
+end;
+
