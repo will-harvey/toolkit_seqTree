@@ -5,13 +5,13 @@
 #' Such a dataframe is generated using ggtree::fortify
 #'
 #' @param tree_dat Data frame describing tree structure
-#' @param node The node from which to ID all ancestors
+#' @param node_id The node from which to ID all ancestors
 #'
 #' @return Vector of descendant nodes
 #' @export
 #'
 #' @examples
-node_ancestors <- function(tree_dat, node_id) {
+node_ancestors <- function(tree_dat = NA, node_id = NA) {
 
   ancestors <- tree_dat$parent[tree_dat$node == node_id]
 

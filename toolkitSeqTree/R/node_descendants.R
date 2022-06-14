@@ -5,13 +5,13 @@
 #' Such a dataframe is generated using ggtree::fortify
 #'
 #' @param tree_dat Data frame describing tree structure
-#' @param node The node from which to ID all descendants
+#' @param node_id The node from which to ID all descendants
 #'
 #' @return Vector of descendant nodes
 #' @export
 #'
 #' @examples
-node_descendants <- function(tree_dat, node_id) {
+node_descendants <- function(tree_dat = NA, node_id = NA) {
 
   # For non-tip at least two offspring nodes will exist in bifurcating tree
   descendants <- tree_dat$node[tree_dat$parent == node_id]
