@@ -7,7 +7,7 @@
 #' @param tree_dat Data frame describing tree structure
 #' @param node_id The node from which to ID all ancestors
 #'
-#' @return Vector of descendant nodes
+#' @return Vector of ancestral nodes
 #' @export
 #'
 #' @examples
