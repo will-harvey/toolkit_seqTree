@@ -103,14 +103,16 @@ ggtree(tree) +
 
 This feature of `node_ancestors()` makes it useful in identifying the node representing the most recent common ancestor in the phylogeny.
 
-### MRCA of two taxa or node.
+### MRCA of two taxa or nodes.
 
-The function `nodes_mrca()` will take two taxa labels (or alternatively two node numbers - which can include internal nodes) and identify the node representing their most recent common ancestor.
+The function `nodes_relationship()` will take two taxa labels (or alternatively two node numbers - which can include internal nodes) and with the argument `relationship = 'mrca'` will identify the node representing their most recent common ancestor (MRCA).
 
 ```{r}
 # Pair of taxa of interest are selected and function 
-taxa_interested <- c('H1N1_A_NEWCALEDONIA_20_1999', 'H1N1_A_STPETERSBURG_5_2008')
-taxa_mrca <- nodes_mrca(tree_dat, taxa = taxa_interested)
+taxa_interested <- c('H1N1_A_NEWCALEDONIA_20_1999',
+                     'H1N1_A_STPETERSBURG_5_2008')
+taxa_mrca <- nodes_relationship(tree_dat, taxa = taxa_interested,
+                                relationship = 'mrca')
 
 # Highlight taxa_interested as blue circles and MRCA as red diamond 
 ggtree(tree) +
@@ -119,3 +121,63 @@ ggtree(tree) +
   geom_point(data = subset(tree_dat, node %in% taxa_mrca),
              col = 'firebrick2', shape = 18, size = 4)
 ```
+
+### Path between nodes
+
+It may be useful for some analyses to define a path between two nodes (probably between two tips in most cases). The nodes  that form this path lie between the two nodes and their MRCA.
+
+This set of nodes (it may be more intuitive to consider the branches) forming this path is identified from the ancestors of the two nodes/taxa identified using `node_ancestors()`. The set forming the path is the set of nodes/branches which are in either of the sets of ancestors, but not their intersection (known as the symmetric difference or disjunctive union of the two sets). 
+
+It will usually make sense to complete the path by supplementing this set of nodes with the node/branch connecting the target nodes using the `node_ancestors()` argument `keep_target_node = TRUE`.
+
+```{r}
+# ID ancestors of two randomly chosen taxa 
+taxa_interested <- c('H1N1_A_WUHAN_371_1995',
+                     'H1N1_A_FUKUSHIMA_141_2006')
+ancestors_1 <- node_ancestors(tree_dat, taxa_interested[1],
+                              keep_target_node = TRUE)
+ancestors_2 <- node_ancestors(tree_dat, taxa_interested[2],
+                              keep_target_node = TRUE)
+
+# Nodes in the path between two taxa are identified as the difference
+# between the union and the intersect of the two sets of ancestors
+path_nodes <- setdiff(union(ancestors_1, ancestors_2),
+                      intersect(ancestors_1, ancestors_2))
+
+# Highlight path branches as thicker and red.
+ggtree(tree, aes(color = node %in% path_nodes,
+                 size = node %in% path_nodes)) +
+  scale_color_manual(values = c('black', 'firebrick2'), guide = 'none') +
+  scale_size_manual(values = c(0.5, 1), guide = 'none') +
+  geom_point(data = subset(tree_dat, label %in% taxa_interested),
+             col = 'dodgerblue', size = 4)
+```
+
+Alternatively, the path between two taxa can be identified using `nodes_relationship()` with the relationship argument set to path (`relationship = 'path'`), which is also the default option.
+
+```{r}
+path_nodes
+
+nodes_relationship(tree_dat, taxa = taxa_interested,
+                   relationship = 'path')
+```
+
+### Shared evolutionary history
+
+Given the two sets of ancestor nodes for two taxa (or nodes), the symmetric difference or disjunctive union of the two sets gives the path between the two taxa through the tree. Alternatively, the intersect of the two sets of ancestors represents the shared evolutionary history of the two taxa. This set can be identified using `nodes_relationship()` with the  `relationship = 'shared'`.
+
+```{r}
+taxa_interested <- c('H1N1_A_WUHAN_371_1995',
+                     'H1N1_A_FUKUSHIMA_141_2006')
+
+shared_nodes <- nodes_relationship(tree_dat, taxa = taxa_interested,
+                                   relationship = 'shared')
+
+ggtree(tree, aes(color = node %in% shared_nodes,
+                 size = node %in% shared_nodes)) +
+  scale_color_manual(values = c('black', 'firebrick2'), guide = 'none') +
+  scale_size_manual(values = c(0.5, 1), guide = 'none') +
+  geom_point(data = subset(tree_dat, label %in% taxa_interested),
+             col = 'dodgerblue', size = 4)
+```
+
