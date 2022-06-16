@@ -25,6 +25,7 @@ library(toolkitSeqTree)
 # load other useful packages
 library(ggtree)
 library(ggplot2)
+library(dplyr)
 ```
 
 ## Identifying node ancestors and descendants
@@ -40,7 +41,7 @@ head(tree_dat)
 
 The relationships between nodes of the phylogeny are contained in `tree_dat` columns `tree_dat$node` and `tree_dat$parent`. For a bifurcating tree, each internal node of the phylogeny is the parent of two nodes.
 
-For the root of the phylogeny, `tree_dat$node == tree_dat$parent`.
+The exception to this rule is that the root of the phylogeny is the parent of three nodes including itself, so for the root of the phylogeny, `tree_dat$node == tree_dat$parent`:
 
 ```{r}
 # plot tree with root highlighted
@@ -109,8 +110,8 @@ The function `nodes_relationship()` will take two taxa labels (or alternatively 
 
 ```{r}
 # Pair of taxa of interest are selected and function 
-taxa_interested <- c('H1N1_A_NEWCALEDONIA_20_1999',
-                     'H1N1_A_STPETERSBURG_5_2008')
+taxa_interested <- c('H1N1_A_WUHAN_371_1995',
+                     'H1N1_A_FUKUSHIMA_141_2006')
 taxa_mrca <- nodes_relationship(tree_dat, taxa = taxa_interested,
                                 relationship = 'mrca')
 
@@ -144,7 +145,7 @@ ancestors_2 <- node_ancestors(tree_dat, taxa_interested[2],
 path_nodes <- setdiff(union(ancestors_1, ancestors_2),
                       intersect(ancestors_1, ancestors_2))
 
-# Highlight path branches as thicker and red.
+# Highlight path branches as thicker and red
 ggtree(tree, aes(color = node %in% path_nodes,
                  size = node %in% path_nodes)) +
   scale_color_manual(values = c('black', 'firebrick2'), guide = 'none') +
@@ -173,6 +174,7 @@ taxa_interested <- c('H1N1_A_WUHAN_371_1995',
 shared_nodes <- nodes_relationship(tree_dat, taxa = taxa_interested,
                                    relationship = 'shared')
 
+# Highlight branches in shared evolutionary history as thicker and red
 ggtree(tree, aes(color = node %in% shared_nodes,
                  size = node %in% shared_nodes)) +
   scale_color_manual(values = c('black', 'firebrick2'), guide = 'none') +
@@ -180,4 +182,88 @@ ggtree(tree, aes(color = node %in% shared_nodes,
   geom_point(data = subset(tree_dat, label %in% taxa_interested),
              col = 'dodgerblue', size = 4)
 ```
+
+## Creating variables
+
+In an analysis exploring variation in some trait associated with a property of each taxa or perhaps measurements that reflect the similarity of taxa. To explore variation in a trait measured per taxa, it may be sensible to use variables representing whether each node/branch exists in the evolutionary history of that taxa (i.e. is the node/branch identified as an ancestor using `node_ancestors()`, or not). To explore variation in a trait measured between pairs of taxa, it may be sensible to to use variables representing whether each node/branch separates the pair in a path drawn through the tree along branches of the phylogeny. Variables of this nature can be classified using `nodes_relationship()` with `relationship = 'path'`.
+
+
+### Ancestor variables
+
+Logical variable for each node/branch and whether or not it is an ancestor of each taxa. This generates a set of variables with one observation per taxon/tip.
+
+```{r}
+# merge output from generate_branch_vars() with tree_dat
+dat <- generate_branch_vars(tree_dat, variable_type = 'identity')
+tree_dat <- left_join(tree_dat, dat, by = 'label')
+
+# Highlight node 55 as blue diamond & have tip points vary by the variable 'id_55'
+ggtree(tree) +
+  geom_point(data = subset(tree_dat, node == 55),
+             col = 'dodgerblue', shape = 18, size = 4) +
+  geom_point(data = subset(tree_dat, isTip == TRUE),
+             aes(col = id_55, shape = id_55), size = 2) +
+  scale_color_manual(values = c('forestgreen', 'goldenrod'))
+
+```
+
+### Difference variables
+
+Logical variable for each node/branch and whether or not it is an ancestor of each taxa. This generates a set of variables with one observation per combination of taxa.
+
+To get an idea of how this variable works, first select a viewpoint virus then look for a variable for a node/branch, for which other taxa does this node/branch fall on the path between them (i.e. diff variable == TRUE)
+
+```{r}
+# regenerate clean version of tree_dat
+tree_dat <- fortify(tree)
+
+# merge output from generate_branch_vars() with tree_dat
+dat <- generate_branch_vars(tree_dat, variable_type = 'difference')
+
+# subset this df do that only one virus is present as 'label_1' then
+# left_join() using 'label_2'
+taxa_subset <- subset(dat, label_1 == 'H1N1_A_FUKUSHIMA_141_2006')
+tree_dat <- left_join(tree_dat, taxa_subset, by = c('label' = 'label_2'))
+
+ggtree(tree) +
+  # Viewpoint virus highlighted in red tip node
+  geom_point(data = subset(tree_dat,
+                           label == 'H1N1_A_FUKUSHIMA_141_2006'),
+             col = 'firebrick3', size = 4) +
+  # branch/node assoc. variable diff_48 highlighted with blue diamond
+  geom_point(data = subset(tree_dat, node == 48),
+             col = 'dodgerblue', shape = 18, size = 4) +
+  # colour/shape of tip nodes depend on whether the combination of them and 
+  # the viewpoint virus are separated by the branch
+  geom_point(data = subset(tree_dat, isTip == TRUE),
+             aes(col = diff_48, shape = diff_48), size = 2) +
+  scale_color_manual(values = c('forestgreen', 'goldenrod'))
+```
+
+The above plot shows a small clade of viruses that are separated from the taxa labelled `'H1N1_A_FUKUSHIMA_141_2006'` for which `diff_48 == TRUE`. These branches are separated from all other viruses in the tree by branch/node 48. If a virus within this clade of 4 taxa is used as the viewpoint, the opposite will be true and `diff_48 == TRUE`
+
+```{r}
+# regenerate clean version of tree_dat
+tree_dat <- fortify(tree)
+
+# subset the df produced by generate_branch_vars again using a different virus
+taxa_subset <- subset(dat, label_1 == 'H1N1_A_JOHANNESBURG_82_1996')
+tree_dat <- left_join(tree_dat, taxa_subset, by = c('label' = 'label_2'))
+
+ggtree(tree) +
+  # Viewpoint virus highlighted in red tip node
+  geom_point(data = subset(tree_dat,
+                           label == 'H1N1_A_JOHANNESBURG_82_1996'),
+             col = 'firebrick3', size = 4) +
+  # branch/node assoc. variable diff_48 highlighted with blue diamond
+  geom_point(data = subset(tree_dat, node == 48),
+             col = 'dodgerblue', shape = 18, size = 4) +
+  # colour/shape of tip nodes depend on whether the combination of them and 
+  # the viewpoint virus are separated by the branch
+  geom_point(data = subset(tree_dat, isTip == TRUE),
+             aes(col = diff_48, shape = diff_48), size = 2) +
+  scale_color_manual(values = c('forestgreen', 'goldenrod'))
+  
+```
+
 
