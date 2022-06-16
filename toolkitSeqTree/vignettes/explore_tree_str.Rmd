@@ -69,6 +69,23 @@ ggtree(tree) +
              col = 'firebrick2', shape = 18, size = 3)
 ```
 
+This function also allows the option to only return descendants nodes that are external tip nodes, using `tips_only = TRUE`.
+
+```{r}
+# This example uses node 60 as a randomly chosen internal node
+target_node <- 60
+descendants <- node_descendants(tree_dat, node_id = target_node,
+                                tips_only = TRUE)
+
+# plot tree with target node highlighted as blue circle
+# and descendants of target node as red diamonds
+ggtree(tree) +
+  geom_point(data = subset(tree_dat, node == target_node),
+             col = 'dodgerblue', size = 4) +
+  geom_point(data = subset(tree_dat, node %in% descendants),
+             col = 'firebrick2', shape = 18, size = 3)
+```
+
 ### Ancestors of a given node.
 
 Similarly, it can be useful to identify ancestors of a node using `node_ancestors()`. Unlike `node_descendants()`, this function can be run using a terminal node (or tip) in addition to internal nodes. For this example, node 60 will be used again as the node of interest. The results returned from `node_ancestors()` should form a path between the node 60 and the root of the phylogeny.

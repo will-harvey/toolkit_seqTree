@@ -6,12 +6,13 @@
 #'
 #' @param tree_dat Data frame describing tree structure
 #' @param node_id The node from which to ID all descendants
+#' @param tips_only Logical - return only tip nodes instead of all descendants - FALSE by default
 #'
 #' @return Vector of descendant nodes
 #' @export
 #'
 #' @examples
-node_descendants <- function(tree_dat = NA, node_id = NA) {
+node_descendants <- function(tree_dat = NA, node_id = NA, tips_only = FALSE) {
 
   # For non-tip at least two offspring nodes will exist in bifurcating tree
   descendants <- tree_dat$node[tree_dat$parent == node_id]
@@ -31,6 +32,11 @@ node_descendants <- function(tree_dat = NA, node_id = NA) {
       stop <- T
     }
     n_descendants <- length(descendants)
+  }
+
+  # if tips_only == TRUE, retain only descendant nodes with isTip == TRUE
+  if (tips_only == TRUE) {
+    descendants <- descendants[descendants %in% tree_dat$node[tree_dat$isTip == TRUE]]
   }
 
   descendants
