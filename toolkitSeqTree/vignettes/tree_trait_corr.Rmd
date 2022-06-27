@@ -1,0 +1,135 @@
+---
+title: "Exploring phylogeny and trait correlation"
+date: '`r format(Sys.Date(), "%B %d %Y")`'
+author: "Will Harvey"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Exploring tree structure}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.width = 6,
+  fig.height = 4
+)
+```
+
+```{r, fig.width=7}
+# load the package into R
+library(toolkitSeqTree)
+
+# load other useful packages
+library(ggtree)
+library(ggplot2)
+library(RColorBrewer)
+```
+
+
+
+```{r}
+tree <- treeio::read.beast('../inst/extdata/h1n1_ref_viruses.trees')
+tree_dat <- fortify(tree)
+ggtree(tree)
+head(tree_dat)
+```
+
+## Discrete traits
+
+First we read a tree into R and "fortify" using `ggtree::fortify()` the tree object which produces a data frame with one row representing each tree node. 
+
+Generate two binary discrete traits in which to explore phylogenetic signal. One will be sampled randomly while the other will be generated using the position of the tip in the y axis which should introduce a phylogenetic signal given related tips are more likely to be near in the y dimension.
+
+```{r}
+tree_dat$trait_A <- NA
+tree_dat$trait_B <- NA
+
+N_taxa <- sum(tree_dat$isTip == T)
+tree_dat$trait_A[1:N_taxa] <- rbinom(N_taxa, 1, 0.5)
+
+tip_node_y <- tree_dat$y[tree_dat$isTip == T]
+tree_dat$trait_B[1:N_taxa] <- rbinom(N_taxa, 1,
+                                     ifelse(tip_node_y > 20, 0.1, 0.9))
+
+tree_dat$trait_A <- as.character(tree_dat$trait_A)
+tree_dat$trait_B <- as.character(tree_dat$trait_B)
+```
+
+We now have two binary, discrete traits associated with the tips of the phylogeny. Trait_B is expected to show greater phylogenetic signal due to the non-random method by which it was created. Each trait can be plotted to see if this expectation looks likely:
+
+```{r}
+ggtree(tree) +
+  geom_point(data = subset(tree_dat, isTip == TRUE),
+             aes(col = trait_A, shape = trait_A), size = 2) +
+  scale_color_manual(values = c('firebrick2', 'dodgerblue'))
+
+ggtree(tree) +
+  geom_point(data = subset(tree_dat, isTip == TRUE),
+             aes(col = trait_B, shape = trait_B), size = 2) +
+  scale_color_manual(values = c('firebrick2', 'dodgerblue'))
+```
+
+### Association index
+
+One metric to quantify phylogeny-trait correlation is the 'association index'  which depends on tree topology and the distribution of traits across tips. This can be calculated using the function `association_index()`. Lower values of the association index indicate stronger phylogeny-trait association.
+
+```{r}
+association_index(tree_dat, trait_var = 'trait_A')
+association_index(tree_dat, trait_var = 'trait_B')
+```
+
+The association index is calculated as the sum of a metric calculated for each internal node of the phylogeny. This per-node metric depends on i) the uniformity of traits distributed in tips descended from the node and ii) the number of tips descended. Per-node values can be returned from `association_index()` using `add_col = TRUE` and represented on the phylogeny using colour.
+
+```{r}
+tree_dat <- association_index(tree_dat, trait_var = 'trait_A',
+                              add_col = TRUE)
+
+ggtree(tree) +
+  geom_point(aes(fill = tree_dat$association), shape = 21, size = 2) +
+  geom_tippoint(aes(col = tree_dat$trait_A), size = 2) +
+  scale_fill_gradientn(colours = brewer.pal(9, "YlGn")[2:8],
+                        guide = "colourbar", name = "Node\nindex") +
+  scale_color_manual(values = c('firebrick2', 'dodgerblue'), name = 'Trait A')
+
+```
+
+### Parsimony approach
+
+With a discrete trait labelled in the tips. An alternative to the association index is the parsimony score which is the minimum number of trait changes required to result in the pattern of traits observed in the tips. There are some different methods of parsimonious reconstruction that vary in the proportion of internal nodes that are either resolved or left as ambiguous (i.e. NA).
+
+The first step of parsimonious reconstruction can be performed from tips to root solving nodes in unambiguous clades. Running the function `tips_2_root()` with the option `prefer_intersect == FALSE` provides one solution.
+
+```{r}
+# By default, tips_2_root() returns a list of option at internal nodes only
+# To return a parsimony solution, use 
+tree_dat_temp <- tips_2_root(tree_dat, trait_var = 'trait_A',
+                             prefer_intersect = FALSE,
+                             resolve_unambiguous = TRUE,
+                             inferred_column = 'trait_A')
+
+ggtree(tree, aes(col = tree_dat_temp$trait_A)) +
+  geom_point(data = tree_dat_temp,
+             aes(col = trait_A, shape = trait_A), size = 2) +
+  scale_color_manual(values = c('firebrick2', 'dodgerblue'), name = 'Trait A') +
+  scale_shape_manual(values = c(16, 17), name = 'Trait A')
+```
+
+Running `tips_2_root()` with `prefer_intersect == TRUE` will generally result in a solution with a greater number of resolved nodes.
+
+```{r}
+# Repeat with prefer_intersect = TRUE
+tree_dat_temp <- tips_2_root(tree_dat, trait_var = 'trait_A',
+                             prefer_intersect = TRUE,
+                             resolve_unambiguous = TRUE,
+                             inferred_column = 'trait_A')
+
+ggtree(tree, aes(col = tree_dat_temp$trait_A)) +
+  geom_point(data = tree_dat_temp,
+             aes(col = trait_A, shape = trait_A), size = 2) +
+  scale_color_manual(values = c('firebrick2', 'dodgerblue'), name = 'Trait A') +
+  scale_shape_manual(values = c(16, 17), name = 'Trait A')
+
+```
