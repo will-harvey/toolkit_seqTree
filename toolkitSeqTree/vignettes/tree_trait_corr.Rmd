@@ -84,8 +84,9 @@ association_index(tree_dat, trait_var = 'trait_B')
 The association index is calculated as the sum of a metric calculated for each internal node of the phylogeny. This per-node metric depends on i) the uniformity of traits distributed in tips descended from the node and ii) the number of tips descended. Per-node values can be returned from `association_index()` using `add_col = TRUE` and represented on the phylogeny using colour.
 
 ```{r}
-tree_dat <- association_index(tree_dat, trait_var = 'trait_A',
+AI <- association_index(tree_dat, trait_var = 'trait_A',
                               add_col = TRUE)
+tree_dat <- AI[[2]]
 
 ggtree(tree) +
   geom_point(aes(fill = tree_dat$association), shape = 21, size = 2) +
@@ -98,7 +99,7 @@ ggtree(tree) +
 
 ### Parsimony approach
 
-With a discrete trait labelled in the tips. An alternative to the association index is the parsimony score which is the minimum number of trait changes required to result in the pattern of traits observed in the tips. *Lower parsimony scores indicate* There are some different methods of parsimonious reconstruction that vary in the proportion of internal nodes that are either resolved or left as ambiguous (i.e. NA).
+With a discrete trait labelled in the tips. An alternative to the association index is the parsimony score which is the minimum number of trait changes required to result in the pattern of traits observed in the tips. **Lower parsimony scores indicate higher phylogeny-trait correlation**. There are some different methods of parsimonious reconstruction that vary in the proportion of internal nodes that are either resolved or left as ambiguous (i.e. NA).
 
 The first step of parsimonious reconstruction can be performed from tips to root solving nodes in unambiguous clades. Running the function `tips_2_root()` with the option `prefer_intersect == FALSE` provides one solution.
 
@@ -174,7 +175,7 @@ cat('Parsimony score: ',
 
 ```
 
-The function `parsimony_score()` function packages up these last few steps, running `tips_2_root()` (with `prefer_intersect = TRUE`, by default), then `root_2_tips()`, before counting the number of trait changes picked up by `tree_dat_temp()`. Compare trait A explored above with trait B which was designed to show greater phylogeny-trait correlation.
+The function `parsimony_score()` function packages up these last few steps, running `tips_2_root()` (with `prefer_intersect = TRUE`, by default), then `root_2_tips()`, before counting the number of trait changes picked up by `tree_dat_temp()`. Compare trait A explored above with trait B which was designed to show greater phylogeny-trait correlation (*n.b.* **Lower parsimony scores indicate higher phylogeny-trait correlation**):
 
 ```{r}
 parsimony_score(tree_dat, trait_var = 'trait_A')

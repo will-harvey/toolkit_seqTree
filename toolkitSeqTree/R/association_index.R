@@ -38,6 +38,8 @@ association_index <- function(tree_dat = NA, trait_var = 'trait',
   cat('Association index = ', signif(AI, 3), '\n')
 
   if (add_col == TRUE) {
-    tree_dat
+    return(list(AI, tree_dat))
+  } else {
+    return(AI)
   }
 }
