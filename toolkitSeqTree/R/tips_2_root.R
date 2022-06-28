@@ -1,6 +1,6 @@
-#' Tips-to-root
+#' Tips-to-root assignment of states to internal nodes
 #'
-#' Perform tips-to-root traversal of phylogenetic tree with labelled discrete
+#' Perform tips-to-root post-order traversal of phylogenetic tree with labelled discrete
 #' trait in tips. Internal nodes will be labelled parsimoniously. At each internal
 #' node, a list of trait options will be built. There is an option to return
 #' unambiguous node values using this function. An alternative approach is to follow
@@ -83,5 +83,4 @@ tips_2_root <- function(tree_dat = NA, trait_var = 'trait',
   } # option to resolve unambiguous nodes
 
   tree_dat
-
 }
