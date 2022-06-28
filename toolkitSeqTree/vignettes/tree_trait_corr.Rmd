@@ -98,7 +98,7 @@ ggtree(tree) +
 
 ### Parsimony approach
 
-With a discrete trait labelled in the tips. An alternative to the association index is the parsimony score which is the minimum number of trait changes required to result in the pattern of traits observed in the tips. There are some different methods of parsimonious reconstruction that vary in the proportion of internal nodes that are either resolved or left as ambiguous (i.e. NA).
+With a discrete trait labelled in the tips. An alternative to the association index is the parsimony score which is the minimum number of trait changes required to result in the pattern of traits observed in the tips. *Lower parsimony scores indicate* There are some different methods of parsimonious reconstruction that vary in the proportion of internal nodes that are either resolved or left as ambiguous (i.e. NA).
 
 The first step of parsimonious reconstruction can be performed from tips to root solving nodes in unambiguous clades. Running the function `tips_2_root()` with the option `prefer_intersect == FALSE` provides one solution.
 
@@ -107,7 +107,7 @@ The first step of parsimonious reconstruction can be performed from tips to root
 # To return a parsimony solution, use 
 tree_dat_temp <- tips_2_root(tree_dat, trait_var = 'trait_A',
                              prefer_intersect = FALSE,
-                             resolve_unambiguous = TRUE,
+                             resolve_unambiguous = FALSE,
                              inferred_column = 'trait_A')
 
 ggtree(tree, aes(col = tree_dat_temp$trait_A)) +
@@ -131,5 +131,60 @@ ggtree(tree, aes(col = tree_dat_temp$trait_A)) +
              aes(col = trait_A, shape = trait_A), size = 2) +
   scale_color_manual(values = c('firebrick2', 'dodgerblue'), name = 'Trait A') +
   scale_shape_manual(values = c(16, 17), name = 'Trait A')
+
+tree_dat_temp <- root_2_tips(tree_dat_temp, trait_var = 'trait_A')
+
+```
+
+To produce a fully resolved parsimonious solution, `tips_2_root()` can be followed by `root_2_tips()`. It is possible that `root_2_tips()` will generate the same solution following `tips_2_root()` with `prefer_intersect == FALSE` or `prefer_intersect == TRUE`, though if they do differ, `root_2_tips()` following `tips_2_root()` with `prefer_intersect == TRUE` will generally result in a more parsimonious solution.
+
+```{r}
+# First, with prefer_intersect == FALSE
+# By default, tips_2_root() returns a list of option at internal nodes only
+# To return a parsimony solution, use 
+tree_dat_temp <- tips_2_root(tree_dat, trait_var = 'trait_A',
+                             prefer_intersect = FALSE)
+tree_dat_temp <- root_2_tips(tree_dat_temp,trait_var = 'trait_A')
+
+ggtree(tree, aes(col = tree_dat_temp$trait_A)) +
+  geom_point(data = tree_dat_temp,
+             aes(col = trait_A, shape = trait_A), size = 2) +
+  scale_color_manual(values = c('firebrick2', 'dodgerblue'), name = 'Trait A') +
+  scale_shape_manual(values = c(16, 17), name = 'Trait A')
+
+
+tree_dat_temp <- does_trait_change(tree_dat_temp,  trait_var = 'trait_A')
+cat('Parsimony score: ',
+    sum(tree_dat_temp$trait_change == TRUE, na.rm = T))
+
+# Second, with prefer_intersect == TRUE
+tree_dat_temp <- tips_2_root(tree_dat, trait_var = 'trait_A',
+                             prefer_intersect = TRUE)
+tree_dat_temp <- root_2_tips(tree_dat_temp,trait_var = 'trait_A')
+
+ggtree(tree, aes(col = tree_dat_temp$trait_A)) +
+  geom_point(data = tree_dat_temp,
+             aes(col = trait_A, shape = trait_A), size = 2) +
+  scale_color_manual(values = c('firebrick2', 'dodgerblue'), name = 'Trait A') +
+  scale_shape_manual(values = c(16, 17), name = 'Trait A')
+
+tree_dat_temp <- does_trait_change(tree_dat_temp,  trait_var = 'trait_A')
+cat('Parsimony score: ',
+    sum(tree_dat_temp$trait_change == TRUE, na.rm = T))
+
+```
+
+The function `parsimony_score()` function packages up these last few steps, running `tips_2_root()` (with `prefer_intersect = TRUE`, by default), then `root_2_tips()`, before counting the number of trait changes picked up by `tree_dat_temp()`. Compare trait A explored above with trait B which was designed to show greater phylogeny-trait correlation.
+
+```{r}
+parsimony_score(tree_dat, trait_var = 'trait_A')
+ps <- parsimony_score(tree_dat, trait_var = 'trait_B', return_df = TRUE)
+tree_dat_temp <- ps[[2]]
+
+ggtree(tree, aes(col = tree_dat_temp$trait_B)) +
+  geom_point(data = tree_dat_temp,
+             aes(col = trait_B, shape = trait_B), size = 2) +
+  scale_color_manual(values = c('firebrick2', 'dodgerblue'), name = 'Trait B') +
+  scale_shape_manual(values = c(16, 17), name = 'Trait B')
 
 ```
