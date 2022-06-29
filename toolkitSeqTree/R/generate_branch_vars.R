@@ -29,6 +29,8 @@ generate_branch_vars <- function(tree_dat = NA, variable_type = 'identity',
   if (variable_type == 'identity') {
     # Generate output with nrow = n taxa and ncols = n branches
     res <- matrix(NA, nrow = N_taxa, ncol = N_nodes + 1)
+    # convert to DF here so that mix of character/logical is possible
+    res <- as.data.frame(res)
     res[,1] <- tree_dat$label[tree_dat$isTip == T]
 
     # Loop through res getting T/F for each branch for each taxa in turn
@@ -38,7 +40,6 @@ generate_branch_vars <- function(tree_dat = NA, variable_type = 'identity',
       res[i, 2:ncol(res)] <- tree_dat$node %in% curr_ancestors
     } # loop through rows (taxa) complete
 
-    res <- as.data.frame(res)
     names(res)[1] <- 'label'
     # Name branch cols, with supplied prefix is provided
     if (is.na(prefix)) {
@@ -52,6 +53,8 @@ generate_branch_vars <- function(tree_dat = NA, variable_type = 'identity',
   ### Difference section
   if (variable_type == 'difference') {
     res <- matrix(NA, nrow = N_taxa^2, ncol = N_nodes + 2)
+    # convert to DF here so that mix of character/logical is possible
+    res <- as.data.frame(res)
     combos <- expand.grid(tree_dat$label[tree_dat$isTip == T],
                           tree_dat$label[tree_dat$isTip == T])
     res[,1] <- as.character(combos[,1])
@@ -61,12 +64,14 @@ generate_branch_vars <- function(tree_dat = NA, variable_type = 'identity',
     for (i in 1:nrow(res)) {
       # if the row had non-matching taxa, get the path
       if (res[i,1] != res[i,2]) {
-        curr_path <- nodes_relationship(tree_dat, taxa = res[i, c(1, 2)])
-      } else { curr_path <- c() }
+        taxa_interested <- c(res[i, 1], res[i, 2])
+        curr_path <- nodes_relationship(tree_dat, taxa = taxa_interested)
+      } else {
+        curr_path <- c()
+      }
       res[i, 3:ncol(res)] <- tree_dat$node %in% curr_path
     } # loop through rows (taxa combos) complete
 
-    res <- as.data.frame(res)
     names(res)[1] <- 'label_1'
     names(res)[2] <- 'label_2'
     # Name branch cols, with supplied prefix is provided
@@ -80,5 +85,3 @@ generate_branch_vars <- function(tree_dat = NA, variable_type = 'identity',
 
   res
 }
-
-
