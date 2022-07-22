@@ -18,7 +18,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-```{r, fig.width=7}
+```{r, message = FALSE}
 # load the package into R
 library(toolkitSeqTree)
 

@@ -19,8 +19,8 @@ association_index <- function(tree_dat = NA, trait_var = 'trait',
 
   tree_dat$association <- NA
   # iterate through internal nodes (i.e. isTip == F)
-  internal_nodes <- tree_dat$node[tree_dat$isTip == F]
-  for (i in min(internal_nodes):max(internal_nodes)) {
+  internals <- tree_dat$node[tree_dat$isTip == F]
+  for (i in internals) {
     curr_node <- tree_dat$node[i]
     # Need N tips descended from current node
     descendants <- node_descendants(tree_dat, node_id = curr_node,

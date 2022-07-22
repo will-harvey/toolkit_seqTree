@@ -19,3 +19,7 @@ Calculate the local branching index (Neher et al. 2014 eLife doi: 10.7554/eLife.
 For each node in a phylogeny, the LBI is the exponentially weighted tree length
 surrounding a node. Higher LBI indicated rapid branching and clade expansion.
 }
+\details{
+The function requires a data frame with column 'node' and 'parent'.
+Such a dataframe is generated using ggtree::fortify
+}
