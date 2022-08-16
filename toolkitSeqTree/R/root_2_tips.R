@@ -73,9 +73,9 @@ root_2_tips <- function(tree_dat = NA, trait_var = 'trait') {
 
     # create temp, subset which has trait in union of these two intersects
     if (length(shared_in_grandchildren) > 1) {
-      temp <- tree_dat[which(tree_dat$trait_A %in% shared_in_grandchildren),]
+      temp <- tree_dat[which(tree_dat[[trait_var]] %in% shared_in_grandchildren),]
     } else {
-      temp <- tree_dat[which(tree_dat$trait_A == shared_in_grandchildren),]
+      temp <- tree_dat[which(tree_dat[[trait_var]] == shared_in_grandchildren),]
     }
 
     # identify oldest node in temp, min(x), and assign to root
