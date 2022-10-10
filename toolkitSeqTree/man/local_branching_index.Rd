@@ -11,9 +11,6 @@ local_branching_index(tree_dat = NA, scale = NA)
 
 \item{scale}{Scaling parameter}
 }
-\value{
-
-}
 \description{
 Calculate the local branching index (Neher et al. 2014 eLife doi: 10.7554/eLife.03568
 For each node in a phylogeny, the LBI is the exponentially weighted tree length

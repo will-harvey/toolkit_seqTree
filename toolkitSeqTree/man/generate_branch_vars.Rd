@@ -13,9 +13,6 @@ generate_branch_vars(tree_dat = NA, variable_type = "identity", prefix = NA)
 
 \item{prefix}{prefix to attach to}
 }
-\value{
-
-}
 \description{
 Create columns of logical variables that indicate whether branches
 of a phylogenetic tree occur in the evolutionary history of a taxon

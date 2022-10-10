@@ -15,9 +15,6 @@ does_trait_change(
 \arguments{
 \item{separator}{}
 }
-\value{
-
-}
 \description{
 With a discrete trait labelled in internal nodes
 }
