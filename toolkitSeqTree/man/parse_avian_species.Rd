@@ -4,12 +4,12 @@
 \alias{parse_avian_species}
 \title{Parse avian species}
 \usage{
-parse_avian_species(dat = NA, species = "species")
+parse_avian_species(host = NA, output = "order")
 }
 \arguments{
-\item{dat}{dataframe with column}
+\item{host}{vector of host labels extracted from virus isolate names}
 
-\item{species_col}{the name of the column with location info to be parsed}
+\item{output}{desired output type}
 }
 \value{
 dataframe with tidied species

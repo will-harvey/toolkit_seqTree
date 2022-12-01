@@ -3,78 +3,105 @@
 #' Tidy up some commonly occurring errors in bird species names in influenza
 #' sequence data bases and match to an avian order when possible
 #'
-#' @param dat dataframe with column
-#' @param species_col the name of the column with location info to be parsed
+#' @param host vector of host labels extracted from virus isolate names
+#' @param output desired output type
 #'
 #' @return dataframe with tidied species
 #' @export
 #'
 #' @examples
-parse_avian_species <- function(dat = NA, species = 'species') {
+parse_avian_species <- function(host = NA, output = 'order') {
 
-  species <- dat[[species]]
-  species <- tolower(species)
-  species <- tolower(species)
-  # remove trailing underscore
-  species <- gsub('_$', '', species)
-  species <- gsub('geese', 'goose', species)
-  species <- gsub('^gray', 'grey', species)
-  species <- gsub('aalopochen', 'alopochen', species)
-  species <- gsub('^barnacle$', 'barnacle_goose', species)
-  species <- gsub('canade_goose', 'canada_goose', species)
-  species <- gsub('chichen', 'chicken', species)
-  species <- gsub('chiken', 'chicken', species)
-  species <- gsub('^cignus', 'cygnus_olor', species)
-  species <- gsub('towny_owel', 'tawny_owl', species)
-  species <- gsub('withe-tiled_eagle', 'white-tailed_eagle', species)
+  if (output == 'order') {
+    host <- tolower(host)
 
+    ## Maintain lists of avian hosts per avian order
+    accipitriformes <- c( 'buteo_buteo', 'gypaetus_barbatus', 'kite', 'western_marsh_harrier')
+    anseriformes <- c('alopochen_aegyptiaca', 'american_wigeon', 'bean_goose(anser_fabalis)', 'branta_canadensis', 'branta_leucopsis', 'common_eider', 'common_eiders', 'common_golden_eye', 'common_goldeneye', 'common_pochard', 'cygnus_columbianus', 'cygnus_olor', 'eurasian_wigeon', 'gadwall', 'garganey', 'hooded_merganser', 'mallard', 'mallard(anas_platyrhynchos)',  'mixed_domestic_anatidae', 'northern_pintail', 'northern_shoveler', 'waterfowl', 'white-fronted_goose(anser_albifrons)', 'wigeon')
+    casuariiformes <- c('cassowary', 'emu')
+    charadriiformes <- c('chlidonias_hybrida', 'common_murre', 'common_snipe', 'curlew', 'eurasian_curlew', 'eurasian_oystercatcher', 'great_skua', 'green_sandpiper', 'knot_wader', 'lapwing', 'laridae', 'larus_argentatus', 'larus_canus', 'northern_lapwing', 'numenius_arquata', 'oystercatcher', 'red_knot', 'red-necked_stint', 'ruddy_turnstone', 'sanderling', 'thalasseus_sandvicensis', 'white-backed_stilt')
+    ciconiiformes <- c('ciconia_ciconia', 'stork')
+    columbiformes <- c('columba_palumbus', 'dove', 'pigeon', 'streptopelia_decaocto')
+    falconiformes <- c('common_kestrel', 'falco_peregrinus', 'falcon', 'kestrel', 'peregrine_falcon')
+    galliformes <- c('australian_brushturkey', 'backyard_poultry', 'brahma_chicken', 'broiler', 'broiler_chicken', 'chicken', 'chickenl', 'common_peacock', 'common_pheasant', 'common_pheasant_', 'common_quail', 'fancy_chicken', 'gallus_gallus', 'guinea_fowl', 'guineafowl', 'hen', 'korean_native_chicken', 'layer', 'laying_hen', 'meleagris_gallopavo', 'mixed_domestic_phasianidae', 'pavo', 'pavo_cristatus', 'partridge', 'peacock', 'peafowl', 'phasianidae', 'pheasant', 'poultry', 'quail', 'rooster', 'silkie_chicken', 'turkey', 'white_peacock')
+    gruiformes <- c('common_coot', 'common_crane', 'coot', 'crane', 'hooded_crane')
+    otidiformes <- c('bustard')
+    passeriformes <- c('bulbul', 'common_raven', 'garrulus_glandarius', 'house_sparrow', 'luscinia_cyane', 'magpie', 'pica_pica', 'song_thrush', 'western_jackdaw')
+    pelecaniformes <- c('ardea_cinerea', 'dalmatian_pelican', 'egret', 'eurasian_spoonbill', 'great_egret', 'great-white_pelican', 'grey_heron', 'heron', 'pelecanus_crispus', 'pelican', 'spoonbill')
+    phoenicopteriformes <- c('flamingo')
+    podicipediformes <- c('grebe', 'little_grebe', 'podiceps_cristatus', 'tachybaptus_ruficollis')
+    procellariiformes <- c('albatross', 'petrel', 'shearwater', 'storm_petrel')
+    rheiformes <- c('greater_rhea', 'rhea')
+    psittaciformes <- c('amazon_parrot', 'catalina_macaw', 'macaw', 'parrot')
+    strigiformes <- c('tyto_alba')
+    struthioniformes <- c('common_ostrich', 'ostrich', 'somali_ostrich')
+    suliformes <- c('cormorant', 'great_cormorant', 'northern_gannet', 'phalacrocorax_carbo')
 
-  ## Maintain lists of bird species as appear in data for each order
-  accipitriformes <- c('bald_eagle', 'black_vulture', 'buteo_buteo', 'buzzard', 'common_buzzard', "cooper's_hawk", 'eagle', 'eastern_buzzard', 'golden_eagle', 'goshawk', 'gypaetus_barbatus', 'hawk', 'kite','northern_goshawk', 'red-shouldered_hawk', 'sea_eagle', 'sparrowhawk', 'vulture', 'western_marsh_harrier', 'white-tailed_eagle')
-  anseriformes <- c('american_blue-winged_teal', 'american_buff_goose', 'american_wigeon', 'anas_platyrhynchos', 'anas_platyrhynchos_domestica', 'anser_albifrons', 'anser_anser', 'anser_anser_domesticus', 'anser_brachyrhynchus', 'anser_brachyrhynchus_anser_anser', 'bar_headed_goose', 'bar-headed_goose', 'barnacle_goose', 'bean_goose', 'black_swan', 'brant_goose', 'branta_canadensis', 'branta_leucopsis', 'brent_goose', 'cascade_duck', 'cignus_olor', 'common_eider', 'common_golden_eye', 'common_goldeneye', 'common_pochard', 'common_teal', 'cygnus_columbianus', 'cygnus_olor', 'domestic_duck', 'domestic_goose', 'duck', 'egyptian_goose', 'embden_goose', 'emperor_goose', 'eurasian_teal', 'eurasian_wigeon', 'ferruginous_duck', 'gadwall', 'garganey', 'geese', 'glaucous-winged_gull', 'goose', 'greater_canada_goose', 'greater_white-fronted_goose', 'green-winged_teal', 'green-winged-teal', 'greylag_goose', 'greylag_goose_', 'hawaiian_goose', 'lesser_black-backed_gull', 'lesser_white-fronted_goose', 'mallard', 'mallard_duck', 'mandarin_duck', 'mule_duck', 'muscovy_duck', 'mute_swan', 'northern_pintail', 'northern_shoveler', 'pink_footed_goose', 'pink-footed_goose', 'pomeranian_goose', 'red-breasted_goose', 'sebastopol_goose', 'snow_goose', 'spot-billed_duck', 'steamer_duck', 'swan', 'taiga_bean_goose', 'teal', 'tufted_duck', 'tundra_bean_goose', 'tundra_swan', 'waterfowl', 'whistling_duck', 'white-fronted_goose', 'whooper_swan', 'wigeon', 'wild_duck', 'wild_goose')
-  casuariiformes <- c('emu')
-  charadriiformes <- c('black-backed_gull', 'black-headed_gull', 'brown-headed_gull', 'canada_goose', 'caspian_gull', 'chlidonias_hybrida', 'common_gull', 'common_murre', 'common_snipe', 'common_tern', 'curlew', 'eurasian_curlew', 'eurasian_oystercatcher', 'european_herring_gull', 'great_black-backed_gull', 'great_skua', 'green_sandpiper', 'gull', 'herring_gull', 'knot_wader', 'lapwing', 'laridae', 'larus_argentatus', 'larus_canus', 'little_gull', 'northern_lapwing', 'numenius_arquata', 'oystercatcher', 'red_knot', 'ruddy_turnstone', 'sanderling', 'sandwich_tern', 'seagull', 'thalasseus_sandvicensis', 'whiskered_tern', 'yellow-legged_gull')
-  ciconiiformes <- c('ciconia_ciconia', 'stork', 'white_stork')
-  columbiformes <- c('columba_palumbus', 'dove', 'pigeon')
-  falconiformes <- c('common_kestrel', 'falco_peregrinus', 'falcon', 'kestrel', 'peregrine_falcon')
-  galliformes <- c('australian_brushturkey', 'broiler', 'broiler_chicken', 'chicken','common_peacock', 'common_pheasant', 'common_pheasant_', 'common_quail', 'fancy_chicken', 'gallus_gallus', 'guinea_fowl', 'guineafowl', 'hen', 'layer', 'laying_hen', 'meleagris_gallopavo', 'partridge', 'peacock', 'peafowl', 'pekin_duck', 'pheasant', 'poultry', 'quail', 'rooster', 'silkie_chicken', 'turkey', 'white_peacock')
-  gruiformes <- c('common_coot', 'common_crane', 'coot', 'crane', 'hooded_crane')
-  otidiformes <- c('bustard')
-  passeriformes <- c('common_raven', 'crow', 'garrulus_glandarius', 'house_sparrow', 'magpie', 'pica_pica', 'song_thrush', 'western_jackdaw')
-  pelecaniformes <- c('ardea_cinerea', 'dalmatian_pelican', 'egret', 'eurasian_spoonbill', 'great_egret', 'great-white_pelican', 'grey_heron', 'heron', 'pelecanus_crispus', 'pelican')
-  phoenicopteriformes <- c('flamingo')
-  podicipediformes <- c('grebe', 'podiceps_cristatus', 'tachybaptus_ruficollis')
-  procellariiformes <- c('albatross', 'petrel', 'shearwater', 'storm_petrel')
-  rheiformes <- c('greater_rhea', 'rhea')
-  psittaciformes <- c('amazon_parrot', 'catalina_macaw', 'macaw', 'parrot')
-  strigiformes <- c('eagle_owl', 'eurasian_eagle-owl', 'little_owl', 'long-eared_owl', 'owl', 'short-eared_owl', 'tawny_owl', 'tyto_alba')
-  suliformes <- c('cormorant', 'great_cormorant', 'northern_gannet', 'nothern_gannet', 'phalacrocorax_carbo')
+    mammal <- c('bobcat', 'bottlenose_dolphin', 'dolphin', 'european_polecat', 'human', 'mink', 'porpoise', 'raccoon', 'skunk', 'swine','tanuki', 'virginia_opossum', 'vulpes_vulpes')
+    unknown_avian <- c('avian', 'bird', 'ornamental_bird', 'wild_bird', 'wild_waterbird')
 
-  # Create a vector to record order matched from species
-  order <- rep(NA, length(species))
-  order <- ifelse(order %in% accipitriformes, 'Accipitriformes', order)
-  order <- ifelse(order %in% anseriformes, 'Anseriformes', order)
-  order <- ifelse(order %in% casuariiformes, 'Casuariiformes', order)
-  order <- ifelse(order %in% charadriiformes, 'Charadriiformes', order)
-  order <- ifelse(order %in% ciconiiformes, 'Ciconiiformes', order)
-  order <- ifelse(order %in% columbiformes, 'Columbiformes', order)
-  order <- ifelse(order %in% falconiformes, 'Falconiformes', order)
-  order <- ifelse(order %in% galliformes, 'Galliformes', order)
-  order <- ifelse(order %in% gruiformes, 'Gruiformes', order)
-  order <- ifelse(order %in% otidiformes, 'Otidiformes', order)
-  order <- ifelse(order %in% passeriformes, 'Passeriformes', order)
-  order <- ifelse(order %in% pelecaniformes, 'Pelecaniformes', order)
-  order <- ifelse(order %in% phoenicopteriformes, 'Phoenicopteriformes', order)
-  order <- ifelse(order %in% podicipediformes, 'Podicipediformes', order)
-  order <- ifelse(order %in% procellariiformes, 'Procellariiformes', order)
-  order <- ifelse(order %in% rheiformes, 'Rheiformes', order)
-  order <- ifelse(order %in% psittaciformes, 'Psittaciformes', order)
-  order <- ifelse(order %in% strigiformes, 'Strigiformes', order)
-  order <- ifelse(order %in% suliformes, 'Suliformes', order)
+    output <- rep(NA, length(host))
+    output <- ifelse(grepl('buzzard$', host), 'Accipitriformes', output)
+    output <- ifelse(grepl('eagle$', host), 'Accipitriformes', output)
+    output <- ifelse(grepl('hawk$', host), 'Accipitriformes', output)
+    output <- ifelse(grepl('vulture$', host), 'Accipitriformes', output)
+    output <- ifelse(grepl('duck$', host), 'Anseriformes', output)
+    output <- ifelse(grepl('goose$', host), 'Anseriformes', output)
+    output <- ifelse(grepl('swan$', host), 'Anseriformes', output)
+    output <- ifelse(grepl('teal$', host), 'Anseriformes', output)
+    output <- ifelse(grepl('^anas_', host), 'Anseriformes', output)
+    output <- ifelse(grepl('^anser_', host), 'Anseriformes', output)
+    output <- ifelse(grepl('^cygnus_', host), 'Anseriformes', output)
+    output <- ifelse(grepl('gull$', host), 'Charadriiformes', output)
+    output <- ifelse(grepl('tern$', host), 'Charadriiformes', output)
+    output <- ifelse(grepl('stork$', host), 'Ciconiiformes', output)
+    output <- ifelse(grepl('dove$', host), 'Columbiformes', output)
+    output <- ifelse(grepl('pigeon$', host), 'Columbiformes', output)
+    output <- ifelse(grepl('falcon$', host), 'Falconiformes', output)
+    output <- ifelse(grepl('pheasant$', host), 'Galliformes', output)
+    output <- ifelse(grepl('coot$', host), 'Gruiformes', output)
+    output <- ifelse(grepl('crane$', host), 'Gruiformes', output)
+    output <- ifelse(grepl('crow$', host), 'Passeriformes', output)
+    output <- ifelse(grepl('ibis$', host), 'Pelecaniformes', output)
+    output <- ifelse(grepl('pelican$', host), 'Pelecaniformes', output)
+    output <- ifelse(grepl('grebe$', host), 'Podicipediformes', output)
+    output <- ifelse(grepl('albatross$', host), 'Procellariiformes', output)
+    output <- ifelse(grepl('petrel$', host), 'Procellariiformes', output)
+    output <- ifelse(grepl('parrot$', host), 'Psittaciformes', output)
+    output <- ifelse(grepl('macaw$', host), 'Psittaciformes', output)
+    output <- ifelse(grepl('penguin$', host), 'Sphenisciformes', output)
+    output <- ifelse(grepl('owl$', host), 'Strigiformes', output)
+    output <- ifelse(grepl('booby$', host), 'Suliformes', output)
+    output <- ifelse(grepl('cormorant$', host), 'Suliformes', output)
+    output <- ifelse(grepl('gannet$', host), 'Suliformes', output)
+    output <- ifelse(grepl('shag$', host), 'Suliformes', output)
+    output <- ifelse(grepl('fox$', host), 'Mammal', output)
+    output <- ifelse(grepl('seal$', host), 'Mammal', output)
 
-  # replace input column with tidied version and add column for order
-  dat[[species]] <- species
-  dat$order <- order
+    output <- ifelse(host %in% accipitriformes, 'Accipitriformes', output)
+    output <- ifelse(host %in% anseriformes, 'Anseriformes', output)
+    output <- ifelse(host %in% casuariiformes, 'Casuariiformes', output)
+    output <- ifelse(host %in% charadriiformes, 'Charadriiformes', output)
+    output <- ifelse(host %in% ciconiiformes, 'Ciconiiformes', output)
+    output <- ifelse(host %in% columbiformes, 'Columbiformes', output)
+    output <- ifelse(host %in% falconiformes, 'Falconiformes', output)
+    output <- ifelse(host %in% galliformes, 'Galliformes', output)
+    output <- ifelse(host %in% gruiformes, 'Gruiformes', output)
+    output <- ifelse(host %in% otidiformes, 'Otidiformes', output)
+    output <- ifelse(host %in% passeriformes, 'Passeriformes', output)
+    output <- ifelse(host %in% pelecaniformes, 'Pelecaniformes', output)
+    output <- ifelse(host %in% phoenicopteriformes, 'Phoenicopteriformes', output)
+    output <- ifelse(host %in% podicipediformes, 'Podicipediformes', output)
+    output <- ifelse(host %in% procellariiformes, 'Procellariiformes', output)
+    output <- ifelse(host %in% rheiformes, 'Rheiformes', output)
+    output <- ifelse(host %in% psittaciformes, 'Psittaciformes', output)
+    output <- ifelse(host %in% strigiformes, 'Strigiformes', output)
+    output <- ifelse(host %in% struthioniformes, 'Struthioniformes', output)
+    output <- ifelse(host %in% suliformes, 'Suliformes', output)
+    output <- ifelse(host %in% mammal, 'Mammal', output)
+    output <- ifelse(host %in% unknown_avian, 'unknown avian', output)
+    output <- ifelse(host %in% c('env', 'enviroment', 'environment', 'environmental_(em)', 'water', 'wild_bird_feces'), 'environment', output)
+  }
 
-  dat
+  output
 }
