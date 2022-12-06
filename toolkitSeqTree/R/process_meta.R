@@ -92,9 +92,11 @@ process_meta <- function(meta_dat = NA, drop.laboratory = TRUE, verbose = FALSE)
   meta_dat$host <- gsub('chiken', 'chicken', meta_dat$host)
   meta_dat$host <- gsub('towny_owel', 'tawny_owl', meta_dat$host)
   meta_dat$host <- gsub('withe-tiled_eagle', 'white-tailed_eagle', meta_dat$host)
-  meta_dat$host <- ifelse(meta_dat$host_meta == 'human', 'human', meta_dat$host)
+  meta_dat$host <- ifelse(meta_dat$isolate_id %in% c('EPI_ISL_16013753', 'EPI_ISL_16013752'),
+                          'pelecanus_occidentalis', meta_dat$host)
 
   meta_dat$host_order <- parse_avian_species(host = meta_dat$host)
+  meta_dat$domestic_status <- tolower(meta_dat$domestic_status)
 
   if (verbose == TRUE) {
     cat("\nNumber of isolates in each host order:")
@@ -124,15 +126,15 @@ process_meta <- function(meta_dat = NA, drop.laboratory = TRUE, verbose = FALSE)
   meta_dat$domestic_wild <- ifelse(grepl('wild', meta_dat$host),
                                    'wild', meta_dat$domestic_wild)
   # overwrite with info in metadata
-  meta_dat$domestic_wild <- ifelse(meta_dat$domestic_status == 'Domestic',
+  meta_dat$domestic_wild <- ifelse(meta_dat$domestic_status %in% c('domestic'),
                                    'domestic', meta_dat$domestic_wild)
-  meta_dat$domestic_wild <- ifelse(meta_dat$domestic_status == 'Wild',
+  meta_dat$domestic_wild <- ifelse(meta_dat$domestic_status %in% c('wild'),
                                    'wild', meta_dat$domestic_wild)
 
   if (verbose == TRUE) {
-    cat("\nNumber of isolates in domestic and wild catergories:")
-    print(table(meta_dat$domestic_wild, useNA = 'ifany'))
-    cat("\nHost from name for any isolates with NA for domestic status:")
+    cat("\nNumber of isolates in new domestic and wild catergories per order:")
+    print(table(meta_dat$host_order, meta_dat$domestic_wild, useNA = 'always'))
+    cat("\nHost from name for any isolates with NA for domestic status:\n")
     print(meta_dat$host[is.na(meta_dat$domestic_wild)])
   }
 
