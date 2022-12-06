@@ -94,6 +94,8 @@ process_meta <- function(meta_dat = NA, drop.laboratory = TRUE, verbose = FALSE)
   meta_dat$host <- gsub('withe-tiled_eagle', 'white-tailed_eagle', meta_dat$host)
   meta_dat$host <- ifelse(meta_dat$isolate_id %in% c('EPI_ISL_16013753', 'EPI_ISL_16013752'),
                           'pelecanus_occidentalis', meta_dat$host)
+  meta_dat$host <- ifelse(meta_dat$host_meta %in% c('human'),
+                          'human', meta_dat$host)
 
   meta_dat$host_order <- parse_avian_species(host = meta_dat$host)
   meta_dat$domestic_status <- tolower(meta_dat$domestic_status)
