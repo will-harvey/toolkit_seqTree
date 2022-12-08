@@ -1,18 +1,26 @@
 #' Process metadata
 #'
 #' @param meta_dat data frame with columns 'Isolate_Id', 'Isolate_Name', 'Subtype', Location','Host', 'Collection_Date', 'Domestic_Status'.
-#' @param drop.recombinant option to drop any isolates labelled as recombinant from output. Defaults to
+#' @param rm.duplicates option to drop duplicate isolate IDs
+#' @param drop.laboratory option to drop any isolates labelled as laboratory or recombinant from output. Defaults to TRUE
 #' @param verbose option to print information on variables as they are created. Defaults to FALSE
 #'
 #' @return
 #' @export
 #'
-process_meta <- function(meta_dat = NA, drop.laboratory = TRUE, verbose = FALSE) {
+process_meta <- function(meta_dat = NA, rm.duplicates = TRUE,
+                         drop.laboratory = TRUE, verbose = FALSE) {
 
   meta_dat <- meta_dat[, c('Isolate_Id', 'Isolate_Name', 'Subtype', 'Location',
                            'Host', 'Collection_Date', 'Domestic_Status')]
 
   names(meta_dat) <- tolower(names(meta_dat))
+
+  ### --------------------------------------------------------------------------------
+  ### Remove duplicates
+  if (rm.duplicates == T) {
+    meta_dat <- meta_dat[!duplicated(meta_dat$isolate_id),]
+  }
 
 
   ### --------------------------------------------------------------------------------
