@@ -23,7 +23,7 @@ parse_avian_species <- function(host = NA, output = 'order') {
     ciconiiformes <- c('ciconia_ciconia', 'stork')
     columbiformes <- c('columba_palumbus', 'dove', 'pigeon', 'streptopelia_decaocto')
     falconiformes <- c('common_kestrel', 'falco_peregrinus', 'falcon', 'kestrel', 'peregrine_falcon')
-    galliformes <- c('australian_brushturkey', 'backyard_poultry', 'brahma_chicken', 'broiler', 'broiler_chicken', 'chicken', 'chickenl', 'common_peacock', 'common_pheasant', 'common_pheasant_', 'common_quail', 'fancy_chicken', 'gallus_gallus', 'guinea_fowl', 'guineafowl', 'hen', 'korean_native_chicken', 'layer', 'laying_hen', 'meleagris_gallopavo', 'mixed_domestic_phasianidae', 'pavo', 'pavo_cristatus', 'partridge', 'peacock', 'peafowl', 'phasianidae', 'pheasant', 'poultry', 'quail', 'rooster', 'silkie_chicken', 'turkey', 'white_peacock')
+    galliformes <- c('australian_brushturkey', 'backyard_poultry', 'brahma_chicken', 'broiler', 'broiler_chicken', 'chicken', 'chickenl', 'common_peacock', 'common_pheasant', 'common_pheasant_', 'common_quail', 'fancy_chicken', 'gallus_gallus', 'gallus_gallus_domesticus', 'guinea_fowl', 'guineafowl', 'hen', 'korean_native_chicken', 'layer', 'laying_hen', 'meleagris_gallopavo', 'mixed_domestic_phasianidae', 'pavo', 'pavo_cristatus', 'partridge', 'peacock', 'peafowl', 'phasianidae', 'pheasant', 'poultry', 'quail', 'rooster', 'silkie_chicken', 'turkey', 'white_peacock', 'wild_turkey')
     gruiformes <- c('common_coot', 'common_crane', 'coot', 'crane', 'hooded_crane')
     otidiformes <- c('bustard')
     passeriformes <- c('bulbul', 'common_raven', 'garrulus_glandarius', 'house_sparrow', 'luscinia_cyane', 'magpie', 'pica_pica', 'song_thrush', 'western_jackdaw')
@@ -37,7 +37,7 @@ parse_avian_species <- function(host = NA, output = 'order') {
     struthioniformes <- c('common_ostrich', 'ostrich', 'somali_ostrich')
     suliformes <- c('cormorant', 'great_cormorant', 'northern_gannet', 'phalacrocorax_carbo')
 
-    mammal <- c('bobcat', 'bottlenose_dolphin', 'dolphin', 'european_polecat', 'human', 'mink', 'porpoise', 'raccoon', 'skunk', 'swine','tanuki', 'virginia_opossum', 'vulpes_vulpes')
+    mammal <- c('black_bear', 'bobcat', 'bottlenose_dolphin', 'dolphin', 'european_polecat', 'human', 'mink', 'porpoise', 'raccoon', 'skunk', 'striped_skunk', 'swine','tanuki', 'virginia_opossum', 'vulpes_vulpes')
     unknown_avian <- c('avian', 'bird', 'ornamental_bird', 'wild_bird', 'wild_waterbird')
 
     output <- rep(NA, length(host))
