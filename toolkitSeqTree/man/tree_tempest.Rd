@@ -4,12 +4,16 @@
 \alias{tree_tempest}
 \title{Tree temporal estimate}
 \usage{
-tree_tempest(tree_dat = NA, dates = NA)
+tree_tempest(tree_dat = NA, dates = NA, residuals = FALSE, return_df = FALSE)
 }
 \arguments{
 \item{tree_dat}{Data frame describing tree structure, optionally including a 'date' column}
 
 \item{dates}{Dates can optionally be supplied in a separate data frame}
+
+\item{residuals}{Logical - should residuals for relationship between dates and root-to-tip divergence be added to dataframe and plotted on tree tips}
+
+\item{return_df}{Logical - should data frame with 'root_dist' and possibly 'temporal_residual' be returned by function}
 }
 \description{
 Investigate the temporal signal in a molecular phylogeny.
