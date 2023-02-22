@@ -1,5 +1,5 @@
 ---
-title: "Exploring tree structure"
+title: "Phylogenetic relationships & tree structure"
 date: '`r format(Sys.Date(), "%B %d %Y")`'
 author: "Will Harvey"
 output: rmarkdown::html_vignette
@@ -52,7 +52,7 @@ ggtree(tree) +
 
 ### Descendants of a given node
 
-For various exercises, it can be useful to use `node_descendants()` to identify all nodes that are descended from a particular internal node of the phylogeny.
+For various exercises, it can be useful to use `node_descendants()` to identify all nodes (red diamonds) that are descended from a particular internal node (blue circle) of the phylogeny.
 
 
 ```{r}
