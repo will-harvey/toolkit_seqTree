@@ -53,8 +53,8 @@ tree_tempest <- function(tree_dat = NA, dates = NA,
   corr_yintercept <- corr_res$coefficients[1]
   corr_slope <- corr_res$coefficients[2]
   corr_xintercept <- (-corr_yintercept) / corr_slope
-  corr_coef <- round(sqrt(res$r.squared), 3)
-  corr_r2 <- round(res$r.squared, 3)
+  corr_coef <- round(sqrt(corr_res$r.squared), 3)
+  corr_r2 <- round(corr_res$r.squared, 3)
 
   date_range <- max(tree_dat$date, na.rm = T) - min(tree_dat$date, na.rm = T)
 
@@ -84,11 +84,12 @@ tree_tempest <- function(tree_dat = NA, dates = NA,
     tree_dat$temporal_residual[1:n_tips] <- corr_res$residuals
 
     ### Tree plot with tips coloured by residual
-    resid_plot <- ggtree(tree_dat) +
-      geom_tippoint(aes(fill = temporal_residual), pch = 21, size = 3) +
-      scale_fill_gradient2(low = 'dodgerblue', mid = 'white',
+    resid_plot <- ggtree::ggtree(tree_dat) +
+      ggtree::geom_tippoint(ggtree::aes(fill = temporal_residual), pch = 21, size = 1.8) +
+      ggplot2::scale_fill_gradient2(low = 'dodgerblue', mid = 'white',
                            high = 'firebrick', midpoint = 0,
-                           name = 'Residual')
+                           name = 'Residual') +
+      ggplot2::theme(text = element_text(size = 13))
     print(resid_plot)
   }
 
