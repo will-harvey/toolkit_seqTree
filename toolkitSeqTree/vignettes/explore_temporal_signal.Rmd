@@ -31,13 +31,13 @@ library(lubridate)
 
 ## Temporal signal in heterochronous sequences
 
-Here, the function `tree_tempest()` is used to explore the relationship between genetic divergence through time and sampling date. The presence of temporal signal in sequences sampled through time can be used to assess whether to process with phylogenetic molecular clock analysis. 
+Heterchronous sequences are those sampled at different points in time that have undergone measurable amounts of evolutionary change between sampling times. Given a molecular phylogeny and dates of sampling for each sequence, the function `tree_tempest()` can be used to explore the relationship between genetic divergence through time and sampling date. The presence of temporal signal in sequences sampled through time can be used to assess the suitability of a phylogenetic molecular clock analysis for the sequences. 
 
-The function `tree_tempest()` is inspired by the software tool TempEst (Rambaut, Lam, de Carvalho & Pybus, Virus Evolution, 2016, 2(1): vew007) which is available at http://tree.bio.ed.ac.uk/software/tempest/.
+The function `tree_tempest()` is inspired by the software tool TempEst (Rambaut, Lam, de Carvalho & Pybus, Virus Evolution, 2016, 2(1): vew007) which is available at http://tree.bio.ed.ac.uk/software/tempest/. The TempEst software has various additional features including the ability to identify the root position for which the data appear most 'clock-like' (i.e. the root position that minimises distances from the regression line).
 
 ### Phylogeny for temporally sampled sequences
 
-In this example uses a maximum likelihood phylogenetic tree for 87 concatenated influenza A(H5N8) genomes collected in late 2016 and throughout 2017. The labels in the tree include the sampling dates which can be extracted after using `ggtree::fortify()` to generate a data frame from the tree object.
+This example uses a maximum likelihood phylogenetic tree constructed for 87 concatenated influenza A(H5N8) genomes sampled over a range of dates spanning roughly a year between late 2016 and late 2017. The labels in the tree include the sampling dates which can be extracted after using `ggtree::fortify()` to generate a data frame from the tree object.
 
 The phylogenetic tree has been generated using raxml (https://cme.h-its.org/exelixis/web/software/raxml/).
 
@@ -72,6 +72,8 @@ tree_tempest(tree_dat)
 ```
 
 ### Using `tree_tempest()` with `residuals = TRUE`
+
+Optionally, `tree_tempest()` can be run with the option `residuals = TRUE` which will return information on the distance of each sequence from the regression line for the regression between root-to-tip distances and sampling dates. A sequence found substantially above or below, the regression line is inferred to be considerably more or less, respectively, genetically diverged from the root than expected given its sampling date. Running the function with `residuals = TRUE` will return a plot of the phylogenetic tree with tips coloured according to the associated residual. Additionally, a data frame with a column containing the residuals will be returned if the option `return_df = TRUE` is used.
 
 ```{r}
 tree_tempest(tree_dat, residuals = TRUE)
