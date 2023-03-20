@@ -27,7 +27,7 @@ nodes_relationship(
 Nodes reflecting an aspect of evolutionary relationship
 }
 \description{
-For any two nodes in rooted birfurcating phylogeny, get ancestral nodes and
+For any two nodes in rooted bifurcating phylogeny, get ancestral nodes and
 return an output based on this: vector of nodes forming path through tree
 between taxa, node representing their most recent common ancestor, or the
 vector of nodes representing their shared evolutionary history.
