@@ -1,6 +1,6 @@
 #' Nodes relationship
 #'
-#' For any two nodes in rooted birfurcating phylogeny, get ancestral nodes and
+#' For any two nodes in rooted bifurcating phylogeny, get ancestral nodes and
 #' return an output based on this: vector of nodes forming path through tree
 #' between taxa, node representing their most recent common ancestor, or the
 #' vector of nodes representing their shared evolutionary history.
@@ -21,7 +21,7 @@ nodes_relationship <- function(tree_dat = NA, taxa = NA, nodes = NA, use_nodes =
                                relationship = 'path') {
 
   if (relationship %in% c('path', 'mrca', 'shared') == FALSE) {
-    stop('Error: method must be one of "path", "mrca" or "shared"')
+    stop('method must be one of "path", "mrca" or "shared"')
   }
 
   if (use_nodes == F) {

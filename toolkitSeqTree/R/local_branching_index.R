@@ -1,6 +1,6 @@
 #' Local branching index
 #'
-#' Calculate the local branching index (Neher et al. 2014 eLife doi: 10.7554/eLife.03568
+#' Calculate the local branching index (Neher et al. 2014 eLife doi: 10.7554/eLife.03568).
 #' For each node in a phylogeny, the LBI is the exponentially weighted tree length
 #' surrounding a node. Higher LBI indicated rapid branching and clade expansion.
 #'
