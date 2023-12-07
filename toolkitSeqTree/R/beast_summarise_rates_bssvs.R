@@ -4,12 +4,14 @@
 #' with discrete traits and a BSSVS network.
 #'
 #' @param rates_dat Data frame version of log file
-#' @param threshold Value above which to retain conditional means. Defaults to 0.5
+#' @param rates_dat Mean overall rate for trait transitions across tree
+#' @param threshold Value above which to retain conditional means. Defaults to 0.5.
 #'
-#' @return summary dataframe
+#' @return summary dataframe for transitions and NA matchining dataframe for non-transitions
 #' @export
 #'
 beast_summarise_rates_bssvs <- function(rates_dat = NA,
+                                        mean_rate = 1,
                                         threshold_cond = 0.5) {
 
   # separate into matrices representing rates and ind variables
@@ -29,14 +31,20 @@ beast_summarise_rates_bssvs <- function(rates_dat = NA,
   means <- data.frame(name = colnames(mat_rates),
                       rate = colMeans(mat_rates),
                       ind = colMeans(mat_ind),
+                      rate_ind = NA,
                       cond = colMeans(mat_cond))
   means$name <- gsub('\\.rates', '', means$name)
 
-  # variable that is rate mean * ind mean
+  # variable that is rate mean * ind mean (for comparison with cond)
   means$rate_ind <- means$rate * means$ind
 
-  # version of cond nulled for rates below an 'ind' threshold
-  means$cond.nulled <- ifelse(means$ind >= threshold_cond,
+  # multiply rates by overall mean rate for trait
+  means$rate <- means$rate * mean_rate
+  means$rate_ind <- means$rate_ind * mean_rate
+  means$cond <- means$cond * mean_rate
+
+  # new column = cond NA'd for rates with 'ind' below threshold
+  means$cond_nulled <- ifelse(means$ind > threshold_cond,
                               means$cond, NA)
 
   # extract source and sink from names from beast
@@ -48,9 +56,9 @@ beast_summarise_rates_bssvs <- function(rates_dat = NA,
   diag <- data.frame(name = NA,
                      rate = NA,
                      ind = NA,
-                     cond = NA,
                      rate_ind = NA,
-                     cond.nulled = NA,
+                     cond = NA,
+                     cond_nulled = NA,
                      source = sort(unique(means$source)),
                      sink = sort(unique(means$source)))
 

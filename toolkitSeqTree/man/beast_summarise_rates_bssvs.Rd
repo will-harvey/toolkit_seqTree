@@ -4,15 +4,19 @@
 \alias{beast_summarise_rates_bssvs}
 \title{Summarise BEAST BSSVS rates}
 \usage{
-beast_summarise_rates_bssvs(rates_dat = NA, threshold_cond = 0.5)
+beast_summarise_rates_bssvs(
+  rates_dat = NA,
+  mean_rate = 1,
+  threshold_cond = 0.5
+)
 }
 \arguments{
-\item{rates_dat}{Data frame version of log file}
+\item{rates_dat}{Mean overall rate for trait transitions across tree}
 
-\item{threshold}{Value above which to retain conditional means. Defaults to 0.5}
+\item{threshold}{Value above which to retain conditional means. Defaults to 0.5.}
 }
 \value{
-summary dataframe
+summary dataframe for transitions and NA matchining dataframe for non-transitions
 }
 \description{
 The function summarises information in BEAST generated log file from a run
