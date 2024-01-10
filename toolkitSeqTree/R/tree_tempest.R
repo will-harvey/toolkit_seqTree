@@ -93,9 +93,15 @@ tree_tempest <- function(tree_dat = NA, dates = NA,
     print(resid_plot)
   }
 
-  ## Option - return data frame with columns 'root_dist' and possibly 'temporal_residual'
+  ## Return options
+  # return data frame with columns 'root_dist' and possibly 'temporal_residual'
+  # or return plots only
   if (return_df == TRUE) {
     return(tree_dat)
+  } else if (return_df == FALSE & residuals == FALSE) {
+    return(list(corr_plot = corr_plot))
+  } else if (return_df == FALSE & residuals == TRUE) {
+    return(list(corr_plot = corr_plot, resid_plot = resid_plot))
   }
 
 }
