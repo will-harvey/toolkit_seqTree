@@ -8,7 +8,9 @@ tree_slice_tmrca(
   tree_dat = NA,
   date_start = NA,
   date_end = NA,
-  method = "complete"
+  method = "complete",
+  cond_var = NA,
+  cond_val = NA
 )
 }
 \arguments{
