@@ -16,7 +16,7 @@
 #'
 #' @examples
 tree_slice_tmrca <- function(tree_dat = NA, date_start = NA, date_end = NA,
-                             method = 'complete') {
+                             method = 'complete', cond_var = NA, cond_val = NA) {
 
   ### input check
   required <- c('node', 'parent', 'isTip','date_frac')
@@ -88,9 +88,22 @@ tree_slice_tmrca <- function(tree_dat = NA, date_start = NA, date_end = NA,
     tips_relevant <- tips_in_slice
   }
 
-  ## Determine the MRCA of this set of relevant tips
-  mrca_node <- set_mrca(tree_dat, tips_relevant)
+  #### option to define tip set with some criteria in addition to time
+  if (is.na(cond_var) == FALSE) {
+    tips_relevant <- tree_dat$node[tree_dat$node %in% tips_relevant &
+                                     tree_dat[[cond_var]] == cond_val]
+  }
+  #### option to define tip set with some criteria in addition to time
 
-  tmrca <- tree_dat$date_frac[tree_dat$node %in% mrca_node]
+
+  if (length(tips_relevant) > 1) {
+    ## Determine the MRCA of this set of relevant tips
+    mrca_node <- set_mrca(tree_dat, tips_relevant)
+
+    tmrca <- tree_dat$date_frac[tree_dat$node %in% mrca_node]
+  } else {
+    tmrca <- NA
+  }
+
   tmrca
 }
