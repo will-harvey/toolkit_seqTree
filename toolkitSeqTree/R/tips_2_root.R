@@ -12,10 +12,9 @@
 #' @param resolve_unambiguous Should a column with inferred trait be returned
 #' @param inferred_column If resolve_unambigous is TRUE, the name of the column result is returned in
 #'
-#' @return
+#' @return Updated tree_dat with inferred trait column
 #' @export
 #'
-#' @examples
 tips_2_root <- function(tree_dat = NA, trait_var = 'trait',
                         prefer_intersect = FALSE,
                         resolve_unambiguous = FALSE,

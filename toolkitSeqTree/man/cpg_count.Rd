@@ -9,6 +9,9 @@ cpg_count(sequence = NA)
 \arguments{
 \item{sequence}{String representation of nucleotide sequence}
 }
+\value{
+CpG count.
+}
 \description{
 Count CpG in a nucleotide sequence.
 }

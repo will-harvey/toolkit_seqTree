@@ -13,6 +13,9 @@ asn_seq_cluster(seq_vector = NA, threshold = 0.02, method = "single")
 
 \item{method}{clustering method to pass to bioseq::seq_cluster()}
 }
+\value{
+vector of cluster IDs
+}
 \description{
 Assign clusters on the basis of sequence similarity using the seq_cluster() function from
 the bioseq package. Re-label

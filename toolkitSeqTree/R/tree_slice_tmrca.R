@@ -13,8 +13,6 @@
 #'
 #' @return fractional date for tMRCA
 #' @export
-#'
-#' @examples
 tree_slice_tmrca <- function(tree_dat = NA, date_start = NA, date_end = NA,
                              method = 'complete', cond_var = NA, cond_val = NA) {
 

@@ -7,7 +7,7 @@
 #' @param threshold threshold similarity to pass to bioseq::seq_cluster()
 #' @param method clustering method to pass to bioseq::seq_cluster()
 #'
-#' @return
+#' @return vector of cluster IDs
 #' @export
 #'
 asn_seq_cluster <- function(seq_vector = NA, threshold = 0.02, method = 'single') {

@@ -13,7 +13,6 @@
 #' @return Association metric
 #' @export
 #'
-#' @examples
 association_index <- function(tree_dat = NA, trait_var = 'trait',
                               add_col = FALSE) {
 

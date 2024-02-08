@@ -10,10 +10,8 @@
 #'
 #' @param tree_dat dataframe describing phylogeny with internal nodes labelled by tips_to_root.R
 #'
-#' @return dataframe with umambiguous moximum parsimony solution to ancestral state reconstruction
+#' @return tree_dat with umambiguous moximum parsimony solution to ancestral state reconstruction
 #' @export
-#'
-#' @examples
 root_2_tips <- function(tree_dat = NA, trait_var = 'trait') {
 
   N.tips <- sum(tree_dat$isTip)

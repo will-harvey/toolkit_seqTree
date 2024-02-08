@@ -10,7 +10,7 @@ root_2_tips(tree_dat = NA, trait_var = "trait")
 \item{tree_dat}{dataframe describing phylogeny with internal nodes labelled by tips_to_root.R}
 }
 \value{
-dataframe with umambiguous moximum parsimony solution to ancestral state reconstruction
+tree_dat with umambiguous moximum parsimony solution to ancestral state reconstruction
 }
 \description{
 Pre-order traversal of phylogeny assigning ancestral states to internal nodes

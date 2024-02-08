@@ -23,6 +23,9 @@ tips_2_root(
 
 \item{inferred_column}{If resolve_unambigous is TRUE, the name of the column result is returned in}
 }
+\value{
+Updated tree_dat with inferred trait column
+}
 \description{
 Perform tips-to-root post-order traversal of phylogenetic tree with labelled discrete
 trait in tips. Internal nodes will be labelled parsimoniously. At each internal

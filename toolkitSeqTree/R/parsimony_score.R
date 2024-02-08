@@ -10,10 +10,9 @@
 #' @param prefer_intersect Logical to pass to tips_2_root function
 #' @param return_df Logical - should dataframe with new columns be returned
 #'
-#' @return
+#' @return parsimony score and optionally tree_dat with columns on trait change
 #' @export
 #'
-#' @examples
 parsimony_score <- function(tree_dat = NA, trait_var = 'trait',
                             prefer_intersect = TRUE, return_df = FALSE) {
 

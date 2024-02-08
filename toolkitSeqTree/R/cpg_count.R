@@ -4,7 +4,7 @@
 #'
 #' @param sequence String representation of nucleotide sequence
 #'
-#' @return
+#' @return CpG count.
 #' @export
 #'
 #' @examples

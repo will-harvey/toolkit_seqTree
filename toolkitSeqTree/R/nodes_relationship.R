@@ -15,8 +15,6 @@
 #'
 #' @return Nodes reflecting an aspect of evolutionary relationship
 #' @export
-#'
-#' @examples
 nodes_relationship <- function(tree_dat = NA, taxa = NA, nodes = NA, use_nodes = F,
                                relationship = 'path') {
 

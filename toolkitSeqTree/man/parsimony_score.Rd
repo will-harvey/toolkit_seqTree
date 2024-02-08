@@ -20,6 +20,9 @@ parsimony_score(
 
 \item{return_df}{Logical - should dataframe with new columns be returned}
 }
+\value{
+parsimony score and optionally tree_dat with columns on trait change
+}
 \description{
 Calculate the parsimony score for a discrete trait labelled in tips. This is the
 minimum number of trait changes required to give the pattern observed in the tips
