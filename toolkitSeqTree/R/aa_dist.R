@@ -4,13 +4,13 @@
 #'
 #' @param a The first sequence
 #' @param b The second sequence
-#' @param dists
+#' @param dists Distance metric to be used (defaults to 'grantham')
 #' @param extra.info Option to return more information as a data frame
 #'
 #' @return Grantham score summed across aa differences in sequences
 #' @export
 #'
-#' @examples
+#' @examples aa_dist(c('AAT', 'VPG'), extra.info = T)
 aa_dist <- function(a = NA, b = NA, dists = "grantham", extra.info = F) {
 
   # deal with lower case input sequences

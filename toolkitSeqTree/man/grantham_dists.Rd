@@ -13,3 +13,6 @@ dataframe including Grantham distances
 Function provides data for other functions to use on Grantham distances
 https://en.wikipedia.org/wiki/Amino_acid_replacement
 }
+\examples{
+grantham_dists()
+}

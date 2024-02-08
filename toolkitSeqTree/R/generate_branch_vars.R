@@ -11,10 +11,8 @@
 #' @param variable_type 'identity' for whether branch occurs in evolutionary history. 'difference' for whether branch separated taxa or not
 #' @param prefix prefix to attach to
 #'
-#' @return
+#' @return Updated data frame with identity or difference phylo variables
 #' @export
-#'
-#' @examples
 generate_branch_vars <- function(tree_dat = NA, variable_type = 'identity',
                                  prefix = NA) {
 

@@ -10,10 +10,8 @@
 #' @param tree_dat Data frame describing tree structure
 #' @param scale Scaling parameter
 #'
-#' @return
+#' @return tree_dat updated with lbi column
 #' @export
-#'
-#' @examples
 local_branching_index <- function(tree_dat = NA, scale = NA) {
 
 

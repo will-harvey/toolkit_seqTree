@@ -9,8 +9,6 @@
 #'
 #' @return Vector of ancestral nodes
 #' @export
-#'
-#' @examples
 node_ancestors <- function(tree_dat = NA, node_id = NA,
                            keep_target_node = FALSE) {
 

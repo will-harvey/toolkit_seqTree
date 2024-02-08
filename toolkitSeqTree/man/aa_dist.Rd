@@ -11,6 +11,8 @@ aa_dist(a = NA, b = NA, dists = "grantham", extra.info = F)
 
 \item{b}{The second sequence}
 
+\item{dists}{Distance metric to be used (defaults to 'grantham')}
+
 \item{extra.info}{Option to return more information as a data frame}
 }
 \value{
@@ -18,4 +20,7 @@ Grantham score summed across aa differences in sequences
 }
 \description{
 Given two aligned amino acid sequences, calculate the Grantham distance.
+}
+\examples{
+aa_dist(c('AAT', 'VPG'), extra.info = T)
 }

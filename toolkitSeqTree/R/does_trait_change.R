@@ -1,17 +1,18 @@
 #' Does trait change
 #'
-#' With a discrete trait labelled in internal nodes
+#' With a discrete trait labelled in internal nodes, defined each internal/external
+#' node of the phylogeny as representing a change in this trait with respect to
+#' its parental node, or not. Optionally, a second column showing the parental
+#' trait state and the current trait state of each node.
 #'
-#' @param tree_dat
-#' @param trait_var
-#' @param logical_column
-#' @param transition_column
-#' @param separator
+#' @param tree_dat Data frame describing tree structure
+#' @param trait_var Column in tree_dat to assess.
+#' @param logical_column Name of logical column returned
+#' @param transition_column Name of transition column to be returned if desired
+#' @param separator Charachter(s) to separate traits in transition column
 #'
-#' @return
+#' @return tree_dat with a logical column and optionally a transition column
 #' @export
-#'
-#' @examples
 does_trait_change <- function(tree_dat = NA, trait_var = 'trait',
                               logical_column = 'trait_change',
                               transition_column = NULL, separator = "_") {

@@ -9,7 +9,7 @@
 #' @param residuals Logical - should residuals for relationship between dates and root-to-tip divergence be added to dataframe and plotted on tree tips
 #' @param return_df Logical - should data frame with 'root_dist' and possibly 'temporal_residual' be returned by function
 #'
-#' @return
+#' @return tree data frame with columns 'root_dist' (and possibly 'temporal_residual') or plots only
 #' @export
 tree_tempest <- function(tree_dat = NA, dates = NA,
                          residuals = FALSE, return_df = FALSE) {

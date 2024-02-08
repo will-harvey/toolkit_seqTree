@@ -10,8 +10,6 @@
 #'
 #' @return Vector of descendant nodes
 #' @export
-#'
-#' @examples
 node_descendants <- function(tree_dat = NA, node_id = NA, tips_only = FALSE) {
 
   # For non-tip at least two offspring nodes will exist in bifurcating tree

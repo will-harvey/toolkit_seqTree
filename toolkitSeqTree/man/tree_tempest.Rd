@@ -15,6 +15,9 @@ tree_tempest(tree_dat = NA, dates = NA, residuals = FALSE, return_df = FALSE)
 
 \item{return_df}{Logical - should data frame with 'root_dist' and possibly 'temporal_residual' be returned by function}
 }
+\value{
+tree data frame with columns 'root_dist' (and possibly 'temporal_residual') or plots only
+}
 \description{
 Investigate the temporal signal in a molecular phylogeny.
 Requires a data frame describing tree structure with columns 'branch.length'.

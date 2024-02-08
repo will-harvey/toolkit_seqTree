@@ -13,8 +13,22 @@ does_trait_change(
 )
 }
 \arguments{
-\item{separator}{}
+\item{tree_dat}{Data frame describing tree structure}
+
+\item{trait_var}{Column in tree_dat to assess.}
+
+\item{logical_column}{Name of logical column returned}
+
+\item{transition_column}{Name of transition column to be returned if desired}
+
+\item{separator}{Charachter(s) to separate traits in transition column}
+}
+\value{
+tree_dat with a logical column and optionally a transition column
 }
 \description{
-With a discrete trait labelled in internal nodes
+With a discrete trait labelled in internal nodes, defined each internal/external
+node of the phylogeny as representing a change in this trait with respect to
+its parental node, or not. Optionally, a second column showing the parental
+trait state and the current trait state of each node.
 }
