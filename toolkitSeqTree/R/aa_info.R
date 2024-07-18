@@ -18,6 +18,27 @@ aa_info <- function() {
                   plot_col = NA,
                   plot_order = 1:20)
 
+  x$code3[x$aa == "G"] <- "Gly"
+  x$code3[x$aa == "A"] <- "Ala"
+  x$code3[x$aa == "I"] <- "Ile"
+  x$code3[x$aa == "L"] <- "Leu"
+  x$code3[x$aa == "P"] <- "Pro"
+  x$code3[x$aa == "V"] <- "Val"
+  x$code3[x$aa == "F"] <- "Phe"
+  x$code3[x$aa == "Y"] <- "Tyr"
+  x$code3[x$aa == "W"] <- "Trp"
+  x$code3[x$aa == "D"] <- "Asp"
+  x$code3[x$aa == "E"] <- "Glu"
+  x$code3[x$aa == "H"] <- "His"
+  x$code3[x$aa == "K"] <- "Lys"
+  x$code3[x$aa == "R"] <- "Arg"
+  x$code3[x$aa == "S"] <- "Ser"
+  x$code3[x$aa == "T"] <- "Thr"
+  x$code3[x$aa == "C"] <- "Cys"
+  x$code3[x$aa == "M"] <- "Met"
+  x$code3[x$aa == "N"] <- "Asn"
+  x$code3[x$aa == "Q"] <- "Gln"
+
   x$aminoacid[x$aa == "G"] <- "Glycine"
   x$aminoacid[x$aa == "A"] <- "Alanine"
   x$aminoacid[x$aa == "I"] <- "Isoleucine"
@@ -73,13 +94,13 @@ aa_info <- function() {
   x$plot_col[x$aa == "E"] <- "darkorange"
   x$plot_col[x$aa == "H"] <- "skyblue1"
   x$plot_col[x$aa == "K"] <- "dodgerblue1"
-  x$plot_col[x$aa == "R"] <- "dodgerblue3"
+  x$plot_col[x$aa == "R"] <- "dodgerblue4"
   x$plot_col[x$aa == "S"] <- "firebrick1"
   x$plot_col[x$aa == "T"] <- "firebrick3"
   x$plot_col[x$aa == "C"] <- "gold"
   x$plot_col[x$aa == "M"] <- "yellow"
   x$plot_col[x$aa == "N"] <- "darkorchid1"
-  x$plot_col[x$aa == "Q"] <- "darkorchid3"
+  x$plot_col[x$aa == "Q"] <- "darkorchid4"
 
   x
 }
