@@ -91,7 +91,7 @@ aa_info <- function() {
   x$plot_col[x$aa == "Y"] <- "olivedrab4"
   x$plot_col[x$aa == "W"] <- "olivedrab1"
   x$plot_col[x$aa == "D"] <- "orange"
-  x$plot_col[x$aa == "E"] <- "darkorange"
+  x$plot_col[x$aa == "E"] <- "darkorange3"
   x$plot_col[x$aa == "H"] <- "skyblue1"
   x$plot_col[x$aa == "K"] <- "dodgerblue1"
   x$plot_col[x$aa == "R"] <- "dodgerblue4"
