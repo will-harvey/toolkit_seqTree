@@ -2,9 +2,9 @@
 #'
 #' Calculate the UniFrac metric - a measure of the phylogenetic signal in a
 #' discrete trait. Nodes are inferred to as being unambiguously associated with
-#' a single trait level or as being ambiguous. The higher the fraction of
-#' unambiguous branches as a proportion of the total branch length in the tree
-#' indicates phylogenetic signal.
+#' a single trait level or as being ambiguous. A higher fraction of unambiguous
+#' branches as a proportion of the total branch length in the tree indicates
+#' greater phylogenetic signal.
 #'
 #' @param tree_dat Data frame describing tree structure
 #' @param trait_var Name of column with discrete trait
@@ -57,6 +57,8 @@ unifrac <- function(tree_dat = NA, trait_var = 'trait', per_level = FALSE,
       trait_levels$branches_unambig[i] <- branches_level
 
       # 2. Sum all branch lengths in evolutionary history of tips of current level
+
+      # need relevant tips for level first
       level_tips <- c(tree_dat$node[tree_dat$isTip == TRUE &
                                       tree_dat[[trait_var]] == curr_level])
       level_ancestors <- c()

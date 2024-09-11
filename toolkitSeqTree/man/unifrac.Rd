@@ -26,7 +26,7 @@ UniFrac metric
 \description{
 Calculate the UniFrac metric - a measure of the phylogenetic signal in a
 discrete trait. Nodes are inferred to as being unambiguously associated with
-a single trait level or as being ambiguous. The higher the fraction of
-unambiguous branches as a proportion of the total branch length in the tree
-indicates phylogenetic signal.
+a single trait level or as being ambiguous. A higher fraction of unambiguous
+branches as a proportion of the total branch length in the tree indicates
+greater phylogenetic signal.
 }

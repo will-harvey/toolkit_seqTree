@@ -21,6 +21,10 @@ tree_slice_tmrca(
 \item{date_end}{Upper date limit for temporal slice}
 
 \item{method}{Whether to use the "complete" (default) or "window" method}
+
+\item{cond_var}{Optional column name on which to condition result}
+
+\item{cond_val}{If conditional variable is supplied, requires value to include}
 }
 \value{
 fractional date for tMRCA

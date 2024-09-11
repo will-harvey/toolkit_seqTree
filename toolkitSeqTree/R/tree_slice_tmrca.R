@@ -10,6 +10,8 @@
 #' @param date_start Lower date limit for temporal slice
 #' @param date_end Upper date limit for temporal slice
 #' @param method Whether to use the "complete" (default) or "window" method
+#' @param cond_var Optional column name on which to condition result
+#' @param cond_val If conditional variable is supplied, requires value to include
 #'
 #' @return fractional date for tMRCA
 #' @export
