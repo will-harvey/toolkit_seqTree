@@ -4,7 +4,7 @@
 \alias{tree_balance_sackin}
 \title{Tree Balance using Sackin index}
 \usage{
-tree_balance_sackin(tree_dat = NA, return_df = F)
+tree_balance_sackin(tree_dat = NA, branch_length = F, return_df = F)
 }
 \arguments{
 \item{tree_dat}{Data frame describing tree structure}
@@ -15,5 +15,6 @@ tree_balance_sackin(tree_dat = NA, return_df = F)
 sackin index or tree data frame with depth labelled for external nodes
 }
 \description{
-Tree Balance using Sackin index
+Function assesses tree balance by calculating the Sackin index which sums
+root-to-tip distances across the tree.
 }
