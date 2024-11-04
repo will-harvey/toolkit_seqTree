@@ -200,6 +200,28 @@ ggtree(tree, aes(color = node %in% shared_nodes,
              col = 'dodgerblue', size = 4)
 ```
 
+### MRCA of a set of tips
+
+The above function can be used to find the node representing the MRCA of two
+nodes. If the MRCA of a larger set of tips is required, `set_mrca.R` can be used.
+
+```{r}
+# Pair of taxa of interest are selected and function 
+taxa_interested <- c('H1N1_A_NETHERLANDS_345_2007',
+                     'H1N1_A_FUKUSHIMA_141_2006',
+                     'H1N1_A_HONGKONG_1870_2008')
+taxa_mrca <- set_mrca(tree_dat,
+                      tip_set = tree_dat$node[tree_dat$label %in% taxa_interested])
+
+# Highlight taxa_interested as blue circles and MRCA as red diamond 
+ggtree(tree) +
+  geom_point(data = subset(tree_dat, label %in% taxa_interested),
+             col = 'dodgerblue', size = 4) +
+  geom_point(data = subset(tree_dat, node %in% taxa_mrca),
+             col = 'firebrick2', shape = 18, size = 4)
+```             
+
+
 ## Creating variables
 
 In an analysis exploring variation in some trait associated with a property of each taxa or perhaps measurements that reflect the similarity of taxa. To explore variation in a trait measured per taxa, it may be sensible to use variables representing whether each node/branch exists in the evolutionary history of that taxa (i.e. is the node/branch identified as an ancestor using `node_ancestors()`, or not). To explore variation in a trait measured between pairs of taxa, it may be sensible to to use variables representing whether each node/branch separates the pair in a path drawn through the tree along branches of the phylogeny. Variables of this nature can be classified using `nodes_relationship()` with `relationship = 'path'`.
