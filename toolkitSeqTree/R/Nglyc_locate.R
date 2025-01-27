@@ -20,14 +20,23 @@ Nglyc_locate <- function(sequence, allow_dash = F, allow_X = F) {
   # aa single letter code does not include BJOUXZ
   # (U is selenocysteine)
   if (allow_dash == T & allow_X == T) {
-    x <- stringr::str_locate_all(sequence, pattern = 'N[-ACDEFGHIKLMNQRSTVWXY][ST]')
+    pattern <- 'N[-ACDEFGHIKLMNQRSTVWXY][ST]'
   } else if ((allow_dash == T & allow_X == F)) {
-    x <- stringr::str_locate_all(sequence, pattern = 'N[-ACDEFGHIKLMNQRSTVWY][ST]')
+    pattern <- 'N[-ACDEFGHIKLMNQRSTVWY][ST]'
   } else if ((allow_dash == F & allow_X == T)) {
-    x <- stringr::str_locate_all(sequence, pattern = 'N[ACDEFGHIKLMNQRSTVWXY][ST]')
+    pattern <- 'N[ACDEFGHIKLMNQRSTVWXY][ST]'
   } else if ((allow_dash == F & allow_X == F)) {
-    x <- stringr::str_locate_all(sequence, pattern = 'N[ACDEFGHIKLMNQRSTVWY][ST]')
+    pattern <- 'N[ACDEFGHIKLMNQRSTVWY][ST]'
   }
-  return(x)
+  # Need lookahead pattern to ID consecutive motifs
+  lookahead_pattern <- paste0("(?=(", pattern, "))")
+
+  match_starts <- stringr::str_locate_all(sequence, lookahead_pattern)[[1]]
+  match_starts <- match_starts[,"start"]
+  match_ends <- match_starts + 3
+
+  res <- as.matrix(cbind(match_starts, match_ends))
+  colnames(res) <- c('start', 'end')
+  return(res)
 }
 
