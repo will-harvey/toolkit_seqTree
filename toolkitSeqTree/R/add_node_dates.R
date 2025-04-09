@@ -16,7 +16,7 @@
 add_node_dates <- function(tree_dat = NA, mrsd = NA, pst = FALSE) {
 
   MRSD_decimal <- ggtree::Date2decimal(MRSD)
-  tree_dat$date <- NA
+  tree_dat$date_frac <- NA
 
   ## if working with PST, need to account for different max x per tree
   if (pst == TRUE) {
@@ -29,17 +29,17 @@ add_node_dates <- function(tree_dat = NA, mrsd = NA, pst = FALSE) {
       curr_tree_id <- tree_ids[i]
       curr_max_x <- max(tree_dat$x[which(tree_dat$.id == curr_tree_id)])
       # if tree id matches curr_tree_id, calc date
-      tree_dat$date <- ifelse(tree_dat$.id == curr_tree_id,
-                              MRSD_decimal - (curr_max_x - tree_dat$x),
-                              tree_dat$date)
+      tree_dat$date_frac <- ifelse(tree_dat$.id == curr_tree_id,
+                                   MRSD_decimal - (curr_max_x - tree_dat$x),
+                                   tree_dat$date_frac)
     }
   } else if (pst == FALSE) {
     max_x <- max(tree_dat$x)
-    tree_dat$date <- MRSD_decimal - (max_x - tree_dat$x)
+    tree_dat$date_frac <- MRSD_decimal - (max_x - tree_dat$x)
   }
 
   # also create column with formatted version of date
-  tree_dat$date_format <- ggtree::decimal2Date(tree_dat$date)
+  tree_dat$date <- ggtree::decimal2Date(tree_dat$date_frac)
 
   tree_dat
 }

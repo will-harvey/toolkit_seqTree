@@ -22,5 +22,5 @@ most recent sampling date (mrsd). Can be done for single tree or for a
 posterior sample of trees (pst).
 }
 \details{
-`tree_dat` should have column `x` and in the case of PST, `/id` too.
+`tree_dat` should have column `x` and in the case of PST, `.id` too.
 }
