@@ -4,12 +4,19 @@
 \alias{tree_persistence}
 \title{Tree persistence}
 \usage{
-tree_persistence(tree_dat = NA, trait = NA, output_colname = "persistence")
+tree_persistence(
+  tree_dat = NA,
+  trait = NA,
+  cond_var = NA,
+  output_colname = "persistence"
+)
 }
 \arguments{
 \item{tree_dat}{Data frame describing structure of a time-resolved phylogeny}
 
 \item{trait}{Column of tree data on which persistence to be calculated}
+
+\item{cond_var}{If used, persistence for `trait` is calculated within this variable}
 
 \item{output_colname}{Name of persistence column in data frame returned}
 }
