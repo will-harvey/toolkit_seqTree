@@ -9,6 +9,8 @@ tree_balance_sackin(tree_dat = NA, branch_length = F, return_df = F)
 \arguments{
 \item{tree_dat}{Data frame describing tree structure}
 
+\item{branch_length}{Logical, calculate tree size based version of index}
+
 \item{return_df}{Logical, return a data frame with depth labelled at each external node}
 }
 \value{
@@ -16,5 +18,6 @@ sackin index or tree data frame with depth labelled for external nodes
 }
 \description{
 Function assesses tree balance by calculating the Sackin index which sums
-root-to-tip distances across the tree.
+root-to-tip depth across the tree. By default depth is calculated as the
+number of edges / branches.
 }
