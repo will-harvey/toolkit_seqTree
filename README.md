@@ -23,5 +23,5 @@ or
 
 Typically installation should complete in <1 minute. Alternatively, this repository can be cloned and the compiled locally. To do so, clone, navigate to the file toolkit_seqTree/toolkitSeqTree/toolkitSeqTree.Rproj and open with RStudio. Then click 'Build' and 'Install'.
 
-This package should be compatible with most versions of R and installation has been tested on Mac, Windows and Ubuntu.
+This package should be compatible with most versions of R and Rstudio and has been tested with R v4.3.2 (2023-10-31) and RStudio v2025.09.1+401. Installation has been tested on Mac, Windows and Ubuntu. No non-standard hardware is required for use.
 
