@@ -4,7 +4,13 @@
 \alias{phylo_clusters}
 \title{Phylogenetic clusters}
 \usage{
-phylo_clusters(tree_dat, t = NA, suppress_singletons = TRUE)
+phylo_clusters(
+  tree_dat,
+  t = NA,
+  w = 1,
+  suppress_singletons = TRUE,
+  suppress_doubles = FALSE
+)
 }
 \arguments{
 \item{tree_dat}{Data frame describing tree structure}

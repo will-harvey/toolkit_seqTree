@@ -19,6 +19,6 @@ beast_summarise_rates_bssvs(
 summary dataframe for transitions and NA matchining dataframe for non-transitions
 }
 \description{
-The function summarises information in BEAST generated log file from a run
+Summarise info in BEAST generated log file from a run
 with discrete traits and a BSSVS network.
 }
