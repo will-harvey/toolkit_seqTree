@@ -4,7 +4,7 @@ This repository hosts the R package *toolkitSeqTree* which includes functions to
 
 ### Vignettes
 
-To get a flavour for some of the packages functionaly, see the vignettes which run a variety of functions to examine correlation between phylogeny and traits (phylogenetic signal), temporal signal in phylogenies and to define relationships between nodes of the phylogeny such as identifying all nodes which fall on a path between two taxa.
+To get a flavour for some of the package's functionality, see the vignettes which run a variety of functions to examine correlation between phylogeny and traits (phylogenetic signal), temporal signal in phylogenies and to define relationships between nodes of the phylogeny such as identifying all nodes which fall on a path between two taxa.
 
 
 ### Install
