@@ -4,8 +4,8 @@
 #' with discrete traits and a BSSVS network.
 #'
 #' @param rates_dat Data frame version of log file
-#' @param rates_dat Mean overall rate for trait transitions across tree
-#' @param threshold Value above which to retain conditional means. Defaults to 0.5.
+#' @param mean_rate Mean overall rate for trait transitions across tree
+#' @param threshold_cond Value above which to retain conditional means. Defaults to 0.5.
 #'
 #' @return summary dataframe for transitions and NA matchining dataframe for non-transitions
 #' @export
