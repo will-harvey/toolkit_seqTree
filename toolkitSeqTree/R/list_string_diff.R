@@ -11,7 +11,7 @@
 #' @export
 #'
 list_string_diff <- function(a = "ATTCGA-", b = "attTGTT", exclude = c("-","?"),
-                           ignore.case = TRUE) {
+                             ignore.case = TRUE) {
   if(nchar(a) != nchar(b)) stop("Lengths of input strings differ. Please check your input.")
   if(ignore.case == TRUE) {
     a <- toupper(a)
@@ -31,16 +31,14 @@ list_string_diff <- function(a = "ATTCGA-", b = "attTGTT", exclude = c("-","?"),
   only.diff <- as.data.frame(rbind(pos, only.diff))
 
   if (ncol(only.diff) > 0) {
-    # loop through characters in exclude, removing any observations
-    # for(ex.loop in 1:length(exclude)) {
-    #   only.diff <- as.data.frame(only.diff[,!(only.diff[2,] == exclude[ex.loop] |
-    #                                             only.diff[3,] == exclude[ex.loop])])
-    # }
 
     only.diff <- as.data.frame(only.diff[, !(only.diff[2,] %in% exclude |
                                                only.diff[3,] %in% exclude)])
 
-    names(only.diff) <- paste0('V.', 1:ncol(only.diff))
+    # if columns still exist after exclusions:
+    if (ncol(only.diff) > 0) {
+      names(only.diff) <- paste0('V.', 1:ncol(only.diff))
+    }
   }
 
   row.names(only.diff) <- c('pos', 'seq.a', 'seq.b')
