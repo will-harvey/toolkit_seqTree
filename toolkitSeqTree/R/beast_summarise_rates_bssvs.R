@@ -1,6 +1,6 @@
 #' Summarise BEAST BSSVS rates
 #'
-#' The function summarises information in BEAST generated log file from a run
+#' Summarise info in BEAST generated log file from a run
 #' with discrete traits and a BSSVS network.
 #'
 #' @param rates_dat Data frame version of log file
@@ -32,7 +32,9 @@ beast_summarise_rates_bssvs <- function(rates_dat = NA,
                       rate = colMeans(mat_rates),
                       ind = colMeans(mat_ind),
                       rate_ind = NA,
-                      cond = colMeans(mat_cond))
+                      cond = colMeans(mat_cond),
+                      cond_025 = apply(mat_cond, 2, quantile, probs = 0.025),
+                      cond_975 = apply(mat_cond, 2, quantile, probs = 0.975))
   means$name <- gsub('\\.rates', '', means$name)
 
   # variable that is rate mean * ind mean (for comparison with cond)
@@ -42,6 +44,8 @@ beast_summarise_rates_bssvs <- function(rates_dat = NA,
   means$rate <- means$rate * mean_rate
   means$rate_ind <- means$rate_ind * mean_rate
   means$cond <- means$cond * mean_rate
+  means$cond_025 <- means$cond_025 * mean_rate
+  means$cond_975 <- means$cond_975 * mean_rate
 
   # new column = cond NA'd for rates with 'ind' below threshold
   means$cond_nulled <- ifelse(means$ind > threshold_cond,
@@ -58,6 +62,8 @@ beast_summarise_rates_bssvs <- function(rates_dat = NA,
                      ind = NA,
                      rate_ind = NA,
                      cond = NA,
+                     cond_025 = NA,
+                     cond_975 = NA,
                      cond_nulled = NA,
                      source = sort(unique(means$source)),
                      sink = sort(unique(means$source)))
