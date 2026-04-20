@@ -7,13 +7,19 @@
 beast_summarise_rates_bssvs(
   rates_dat = NA,
   mean_rate = 1,
-  threshold_cond = 0.5
+  threshold_cond = 0.5,
+  interval = "hpd"
 )
 }
 \arguments{
-\item{rates_dat}{Mean overall rate for trait transitions across tree}
+\item{rates_dat}{Data frame version of log file}
 
-\item{threshold}{Value above which to retain conditional means. Defaults to 0.5.}
+\item{mean_rate}{Mean overall rate for trait transitions across tree}
+
+\item{threshold_cond}{Value above which to retain conditional means. Defaults to 0.5.}
+
+\item{interval}{'hpd' (default) for highest posterior density interval or
+'credible' for equal-tailed credible interval interval.}
 }
 \value{
 summary dataframe for transitions and NA matchining dataframe for non-transitions

@@ -6,14 +6,19 @@
 #' @param rates_dat Data frame version of log file
 #' @param mean_rate Mean overall rate for trait transitions across tree
 #' @param threshold_cond Value above which to retain conditional means. Defaults to 0.5.
+#' @param interval 'hpd' (default) for highest posterior density interval or
+#' 'credible' for equal-tailed credible interval interval.
 #'
 #' @return summary dataframe for transitions and NA matchining dataframe for non-transitions
 #' @export
 #'
 beast_summarise_rates_bssvs <- function(rates_dat = NA,
                                         mean_rate = 1,
-                                        threshold_cond = 0.5
+                                        threshold_cond = 0.5,
                                         interval = 'hpd') {
+
+  if (!interval %in% c('hpd', 'interval'))
+    stop ('Unrecognised interval type. Function requires interval type "hpd" or "credible"')
 
   # separate into matrices representing rates and ind variables
   names_rates <- names(dat)[grepl('rates', names(dat))]
@@ -28,14 +33,32 @@ beast_summarise_rates_bssvs <- function(rates_dat = NA,
   # multiply matrices together to get conditional rates
   mat_cond <- mat_rates * mat_ind
 
-  # extract column means for plot
-  means <- data.frame(name = colnames(mat_rates),
-                      rate = colMeans(mat_rates),
-                      ind = colMeans(mat_ind),
-                      rate_ind = NA,
-                      cond = colMeans(mat_cond),
-                      cond_025 = apply(mat_cond, 2, quantile, probs = 0.025),
-                      cond_975 = apply(mat_cond, 2, quantile, probs = 0.975))
+  # extract column means for plot. Method for calculating upper and lower interval
+  # bounds depends on interval type
+  if (interval == 'hpd') {
+    means <- data.frame(name = colnames(mat_rates),
+                        rate = colMeans(mat_rates),
+                        ind = colMeans(mat_ind),
+                        rate_ind = NA,
+                        cond = colMeans(mat_cond),
+                        cond_025 = NA,
+                        cond_975 = NA)
+    for (i in 1:nrow(means)) {
+      means$cond_025[i] <- HDInterval::hdi(mat_cond[,i], credMass = 0.95)[1]
+      means$cond_975[i] <- HDInterval::hdi(mat_cond[,i], credMass = 0.95)[2]
+    }
+  }
+
+  if (interval == 'credible') {
+    means <- data.frame(name = colnames(mat_rates),
+                        rate = colMeans(mat_rates),
+                        ind = colMeans(mat_ind),
+                        rate_ind = NA,
+                        cond = colMeans(mat_cond),
+                        cond_025 = apply(mat_cond, 2, quantile, probs = 0.025),
+                        cond_975 = apply(mat_cond, 2, quantile, probs = 0.975))
+  }
+
   means$name <- gsub('\\.rates', '', means$name)
 
   # variable that is rate mean * ind mean (for comparison with cond)
