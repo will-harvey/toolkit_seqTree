@@ -12,7 +12,8 @@
 #'
 beast_summarise_rates_bssvs <- function(rates_dat = NA,
                                         mean_rate = 1,
-                                        threshold_cond = 0.5) {
+                                        threshold_cond = 0.5
+                                        interval = 'hpd') {
 
   # separate into matrices representing rates and ind variables
   names_rates <- names(dat)[grepl('rates', names(dat))]
