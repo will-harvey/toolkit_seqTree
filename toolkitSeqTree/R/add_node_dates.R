@@ -15,7 +15,7 @@
 #'
 add_node_dates <- function(tree_dat = NA, mrsd = NA, pst = FALSE) {
 
-  MRSD_decimal <- ggtree::Date2decimal(MRSD)
+  MRSD_decimal <- ggtree::Date2decimal(mrsd)
   tree_dat$date_frac <- NA
 
   ## if working with PST, need to account for different max x per tree
